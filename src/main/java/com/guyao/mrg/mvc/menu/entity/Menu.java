@@ -1,4 +1,4 @@
-package com.guyao.mrg.mvc.right.entity;
+package com.guyao.mrg.mvc.menu.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -12,12 +12,12 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author guyao
- * @since 2019-07-18
+ * @since 2019-10-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Right implements Serializable {
+public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,19 +27,44 @@ public class Right implements Serializable {
     private String id;
 
     /**
-     * 权限名称
+     * 菜单名
      */
-    private String rightName;
+    private String name;
 
     /**
-     * 权限描述
+     * 菜单类型
      */
-    private String rightDescript;
+    private Integer type;
+
+    /**
+     * 父id
+     */
+    private String parentId;
+
+    /**
+     * 删除标记
+     */
+    private String isDelete;
+
+    /**
+     * 图标
+     */
+    private String icon;
+
+    /**
+     * 路径
+     */
+    private String url;
+
+    /**
+     * 权限
+     */
+    private String permission;
 
     /**
      * 创建人
      */
-    private String createrId;
+    private String creater;
 
     /**
      * 创建时间
@@ -49,17 +74,12 @@ public class Right implements Serializable {
     /**
      * 修改人
      */
-    private String modifierId;
+    private String modifier;
 
     /**
      * 修改时间
      */
     private LocalDateTime modifyTime;
-
-    /**
-     * 是否删除
-     */
-    private String isDelete;
 
 
 }

@@ -2,4 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guyao.mrg.mvc.role.mapper.RoleMapper">
 
+    <resultMap id="roleMap" type="com.guyao.mrg.mvc.role.entity.Role">
+        <id column="id" property="id"/>
+        <collection property="menuList" column="id" fetchType="eager" select="com.guyao.mrg.mvc.menu.mapper.MenuMapper.findByRoleId"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="roleMap">
+        SELECT
+            t.id,
+            t.role_name,
+            t.role_descript,
+            t.create_time,
+            t.creater_id,
+            t.is_delete,
+            t.modifier_id,
+            t.modify_time
+        FROM
+            role t
+            left join user_role ur on t.id = ur.role_id
+        where
+            ur.user_id = #{userId}
+        and
+            t.is_delete = 0
+
+    </select>
 </mapper>

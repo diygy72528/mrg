@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guyao.mrg.mvc.menu.mapper.MenuMapper">
+<select id="findByRoleId" resultType="com.guyao.mrg.mvc.menu.entity.Menu">
+    SELECT
+        m.id,
+        m.url,
+        m.type,
+        m.permission,
+        m.parent_id,
+        m.`name`,
+        m.modify_time,
+        m.modifier,
+        m.is_delete,
+        m.icon,
+        m.create_time,
+        m.creater
+    FROM
+        menu m
+        LEFT JOIN role_menu rm ON m.id = rm.menu_id
+    WHERE
+        rm.role_id = #{roleId}
+        AND m.is_delete = 0
+</select>
+</mapper>

@@ -2,6 +2,9 @@ package com.guyao.mrg.mvc.user.mapper;
 
 import com.guyao.mrg.mvc.user.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -12,5 +15,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2019-07-18
  */
 public interface UserMapper extends BaseMapper<User> {
+
+    void updateLoginInfo(@Param("lastLoginTime") Date lastLoginTime);
+
+    User findByUsername(@Param("username") String username);
 
 }

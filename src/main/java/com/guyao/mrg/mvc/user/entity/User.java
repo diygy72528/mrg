@@ -2,13 +2,16 @@ package com.guyao.mrg.mvc.user.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
+import com.guyao.mrg.mvc.role.entity.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author guyao
@@ -20,6 +23,8 @@ import lombok.experimental.Accessors;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private List<Role> roleList;
 
     /**
      * 主键
@@ -76,5 +81,10 @@ public class User implements Serializable {
      */
     private String remark;
 
+
+    /**
+     * 用户状态
+     */
+    private Long userStatus;
 
 }

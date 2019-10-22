@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guyao.mrg.mvc.user.mapper.UserMapper">
 
+
+    <resultMap id="userResult" type="com.guyao.mrg.mvc.user.entity.User">
+        <id column="id" property="id"/>
+        <result column="is_delete" property="isDelete"/>
+        <collection property="roleList" column="id" fetchType="eager" select="com.guyao.mrg.mvc.role.mapper.RoleMapper.findByUserId"/>
+    </resultMap>
+
+    <update id="updateLoginInfo">
+        update user
+        set
+        last_login_time=#{lastLoginTime},
+        login_count= login_count + 1
+
+    </update>
+
+    <select id="findByUsername" resultMap="userResult">
+        SELECT
+            id,
+            user_name,
+            account,
+            PASSWORD,
+            mobile,
+            email,
+            register_time,
+            last_login_time,
+            login_count,
+            is_delete,
+            remark,
+            user_status
+        FROM
+            user
+        where account = #{username}
+        and is_delete = 0
+    </select>
+
 </mapper>

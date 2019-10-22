@@ -2,13 +2,16 @@ package com.guyao.mrg.mvc.role.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
+import com.guyao.mrg.mvc.menu.entity.Menu;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author guyao
@@ -20,6 +23,8 @@ import lombok.experimental.Accessors;
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private List<Menu> menuList;
 
     /**
      * id

@@ -1,0 +1,29 @@
+server:
+  port: 9191
+  servlet:
+    session:
+      cookie:
+        http-only: true #如果为true，那么浏览器脚本将无法访问cookie
+        secure: false #如果为true，那么cookie将仅通过HTTPS连接发送
+      persistent: false
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    cache: false
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/**.xml
+  type-aliases-package: com.guyao.mvc.**.entity
+  global-config:
+    db-config:
+      id-type: uuid
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      db-type: mysql
+    banner: true
+  configuration:
+    map-underscore-to-camel-case: true
+    aggressive-lazy-loading: false
+    cache-enabled: true
+    lazy-loading-enabled: true

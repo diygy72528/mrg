@@ -12,5 +12,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-07-18
  */
 public interface IUserService extends IService<User> {
+    public void updateUserInfo();
+
+    public User findByUsername(String username);
 
 }

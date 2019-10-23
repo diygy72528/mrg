@@ -1,15 +1,21 @@
 package com.guyao.mrg.mvc.config;
 
+import com.guyao.mrg.base.MrG;
 import com.guyao.mrg.base.MrGConstant;
 import com.guyao.mrg.mvc.user.service.IUserService;
 import com.guyao.mrg.mvc.user.service.impl.UserServiceImpl;
+import com.guyao.mrg.result.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
 import java.io.PrintWriter;
 
@@ -48,10 +54,19 @@ public class SecurityHandler {
      */
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
+
         return (request, response , authentication) -> {
+            String status = AjaxResult.SUCCESS_STATUS;
+            String msg = AjaxResult.SUCCESS_MESSGAGE;
+            RequestCache requestCache = new HttpSessionRequestCache();
+            SavedRequest savedRequest = requestCache.getRequest(request, response);
+            if(savedRequest != null && StringUtils.isNotEmpty(savedRequest.getRedirectUrl())) {
+                status = AjaxResult.REDIRECT;
+                msg = savedRequest.getRedirectUrl();
+            }
             response.setContentType("application/json;charset=utf-8");
             PrintWriter writer = response.getWriter();
-            writer.write("{\"status\":\"0\",\"msg\":\"登录成功\"}");
+            writer.write("{\"status\":\""+status+"\",\"msg\":\""+msg+"\"}");
             writer.flush();
             writer.close();
             userService.updateUserInfo();

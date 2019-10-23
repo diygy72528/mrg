@@ -21,6 +21,7 @@
     <![endif]-->
     <!--[if lt IE 9]>
     <script th:src="@{/webjars/html5shiv/3.7.3/html5shiv.min.js}"></script>
+    <script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/boostrapValidator.min.js}"></script>
     <script th:src="@{/webjars/respond/1.4.2/dest/respond.min.js}"></script>
     <![endif]-->
     <link rel="stylesheet" th:href="@{/static/modules/manage/css/login.css}">
@@ -89,7 +90,7 @@
                                 <span class="fa fa-shield form-control-feedback"></span>
                             </div>
                         </div>
-                        <img class="col-xs-5" id="kaptcha" height="34px" onclick="reloadCode()"
+                        <img class="col-xs-5" id="kaptcha" height="34px"
                              th:src="@{/kaptcha}"/>
                     </div>
                 </div>
@@ -97,6 +98,10 @@
                 <div class="form-group">
                     <button id="submit" type="submit" class="btn btn-primary btn-block btn-flat">登录
                     </button>
+                </div>
+                <div class="form-group">
+                    <input id="rememberme" type="checkbox" name="remember-me" /> 记住我
+                    </input>
                 </div>
             </form>
         </div>
@@ -115,6 +120,8 @@
 <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>
 <script th:src="@{/static/common/plugins/jsencrypt/jsencrypt.min.js}"></script>
+<script th:src="@{/static/common/js/common.js}"></script>
+<script th:src="@{/static/common/js/mrg-base.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     contextPath = /*[[@{/}]]*/ '';

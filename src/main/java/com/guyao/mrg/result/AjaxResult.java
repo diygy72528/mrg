@@ -9,6 +9,13 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Data
 public class AjaxResult {
+
+    public static final String REDIRECT = "redirect";
+    public static final String SUCCESS_STATUS = "0";
+    public static final String SUCCESS_MESSGAGE = "登陆成功";
+    public static final String FAILED_STATUS = "1";
+    public static final String FAILED_MESSAGE = "登陆失败";
+
     //0为成功，1为失败。
     private String status;
     private String msg;

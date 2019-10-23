@@ -69,7 +69,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutUrl("/logout").permitAll()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(entryPoint);
+                .exceptionHandling().authenticationEntryPoint(entryPoint)
+                .and()
+                .rememberMe();
         http.sessionManagement().invalidSessionUrl("/login")
                 .sessionFixation().migrateSession()
                 .maximumSessions(1).maxSessionsPreventsLogin(true).sessionRegistry(sessionRegistry())
@@ -82,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private String[] antMatchers() {
-        return new String[]{"/static/**","/webjars/**","/kaptcha","/publicKey"};
+        return new String[]{"/static/**","/webjars/**","/kaptcha","/publicKey","/favicon.ico"};
     }
 
     @Bean

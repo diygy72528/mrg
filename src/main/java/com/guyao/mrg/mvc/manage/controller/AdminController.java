@@ -8,6 +8,7 @@ import com.guyao.mrg.result.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class AdminController extends BaseController {
 
     @GetMapping("/login")
     public String login() {
-        return "/home/login";
+        return "login";
     }
 
     @GetMapping("/kaptcha")
@@ -46,5 +47,17 @@ public class AdminController extends BaseController {
     @ResponseBody
     public AjaxResult generateKeys() {
         return AjaxResult.ok(adminService.generateKeys());
+    }
+
+
+    @GetMapping({"","/index"})
+    public String index(Model model) {
+        model.addAttribute("brand","通用权限管理");
+        return "index";
+    }
+
+    @GetMapping("dashboard")
+    public String dashboard() {
+        return "dashboard/dashboard";
     }
 }

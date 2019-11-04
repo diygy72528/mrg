@@ -5,17 +5,21 @@
     <title>登录</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" th:href="@{/static/common/img/favicon.ico}">
     <!-- 告诉浏览器响应屏幕宽度 -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}"/>
-    <link rel="stylesheet" th:href="@{/static/common/css/AdminLTE.css}"/>
+    <link rel="stylesheet" th:href="@{/static/common/dist/css/adminlte.min.css}"/>
+    <!-- 登陆页占满整个浏览器 -->
     <script>
         if (top.location != location) {
             top.location.href = location.href;
         }
     </script>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!--[if IE 8]>
     <script th:src="@{/static/fast/js/browser-not-supported-ie8.js}"></script>
     <![endif]-->
@@ -24,86 +28,88 @@
     <script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/boostrapValidator.min.js}"></script>
     <script th:src="@{/webjars/respond/1.4.2/dest/respond.min.js}"></script>
     <![endif]-->
-    <link rel="stylesheet" th:href="@{/static/modules/manage/css/login.css}">
 </head>
-<body class="hold-transition login-page" style="overflow: hidden;">
+<body class="hold-transition login-page"  style="background-repeat:no-repeat ;background-size:100% 100%;background-image: url(static/common/dist/img/loginbg.jpg);
+background-attachment: fixed;">
 <div id="LOGIN-PAGE">
     <!--演示模式-->
     <th:block th:if="${open}">
         <p class="bg-success text-center demo">演示模式</p>
     </th:block>
     <div class="login-box">
-        <div class="login-logo" th:text="${logo}"></div>
-        <div class="login-box-body">
-            <!--错误消息-->
-            <p class="login-box-msg" style="color: red" id="msg"></p>
-            <!--表单-->
-            <form th:action="@{/login}" method="post" id="form" data-toggle="validator">
-                <!--用户名-->
-                <div class="form-group username">
-                    <label for="username">用户名:</label>
-                    <div class="form-group has-feedback username">
-                        <!--演示模式-->
-                        <th:block th:if="${open}">
-                            <input type="text" class="form-control" th:value="${username}" autocomplete="off"
-                                   id="username" name="username"
-                                   placeholder="请输入用户名">
-                            <span class="fa fa-user form-control-feedback"></span>
-                        </th:block>
-                        <!--非演示模式-->
-                        <th:block th:unless="${open}">
-                            <input type="text" class="form-control" autocomplete="off"
-                                   id="username" name="username"
-                                   placeholder="请输入用户名">
-                            <span class="fa fa-user form-control-feedback"></span>
-                        </th:block>
-                    </div>
-                </div>
-                <!--密码-->
-                <div class="form-group password">
-                    <label for="password">密码:</label>
-                    <div class="form-group has-feedback password">
-                        <!--演示模式-->
-                        <th:block th:if="${open}">
-                            <input type="password" class="form-control" th:value="${password}" id="password"
-                                   name="password" autocomplete="off"
-                                   placeholder="请输入密码">
-                            <span class="fa fa-key form-control-feedback"></span>
-                        </th:block>
-                        <!--非演示模式-->
-                        <th:block th:unless="${open}">
-                            <input type="password" class="form-control" id="password" name="password" autocomplete="off"
-                                   placeholder="请输入密码">
-                            <span class="fa fa-key form-control-feedback"></span>
-                        </th:block>
-                    </div>
-                </div>
-                <!--验证码-->
-                <div class="form-group captcha">
-                    <label for="SESSION_IMAGE_CODE">验证码:</label>
-                    <div class="row">
-                        <div class="col-xs-7">
-                            <div class="form-group has-feedback captcha">
-                                <input type="text" class="form-control" id="SESSION_IMAGE_CODE"
-                                       name="SESSION_IMAGE_CODE" disableautocomplete placeholder="请输入验证码"
-                                       autocomplete="off">
-                                <span class="fa fa-shield form-control-feedback"></span>
-                            </div>
+        <div class="login-logo"><b th:text="${logo}"></b></div>
+        <div class="card">
+            <div class="login-box-body">
+                <!--错误消息-->
+                <p class="login-box-msg" style="color: red" id="msg"></p>
+                <!--表单-->
+                <form th:action="@{/login}" onsubmit="return false" method="post" id="form" data-toggle="validator">
+                    <!--用户名-->
+                    <div class="form-group username">
+                        <label for="username">用户名:</label>
+                        <div class="form-group has-feedback username">
+                            <!--演示模式-->
+                            <th:block th:if="${open}">
+                                <input type="text" class="form-control" th:value="${username}" autocomplete="off"
+                                       id="username" name="username"
+                                       placeholder="请输入用户名">
+                                <span class="fa fa-user form-control-feedback"></span>
+                            </th:block>
+                            <!--非演示模式-->
+                            <th:block th:unless="${open}">
+                                <input type="text" class="form-control" autocomplete="off"
+                                       id="username" name="username"
+                                       placeholder="请输入用户名">
+                                <span class="fa fa-user form-control-feedback"></span>
+                            </th:block>
                         </div>
-                        <img class="col-xs-5" id="kaptcha" height="34px"
-                             th:src="@{/kaptcha}"/>
                     </div>
-                </div>
-                <!--登录按钮-->
-                <div class="form-group">
-                    <button id="submit" type="submit" class="btn btn-primary btn-block btn-flat">登录
-                    </button>
-                </div>
-                <div class="form-group">
-                    <input id="rememberme" type="checkbox" name="remember-me" /> 记住我
-                    </input>
-                </div>
-            </form>
+                    <!--密码-->
+                    <div class="form-group password">
+                        <label for="password">密码:</label>
+                        <div class="form-group has-feedback password">
+                            <!--演示模式-->
+                            <th:block th:if="${open}">
+                                <input type="password" class="form-control" th:value="${password}" id="password"
+                                       name="password" autocomplete="off"
+                                       placeholder="请输入密码">
+                                <span class="fa fa-key form-control-feedback"></span>
+                            </th:block>
+                            <!--非演示模式-->
+                            <th:block th:unless="${open}">
+                                <input type="password" class="form-control" id="password" name="password" autocomplete="off"
+                                       placeholder="请输入密码">
+                                <span class="fa fa-key form-control-feedback"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                    <!--验证码-->
+                    <div class="form-group captcha">
+                        <label for="SESSION_IMAGE_CODE">验证码:</label>
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <div class="form-group has-feedback captcha">
+                                    <input type="text" class="form-control" id="SESSION_IMAGE_CODE"
+                                           name="SESSION_IMAGE_CODE" disableautocomplete placeholder="请输入验证码"
+                                           autocomplete="off">
+                                    <span class="fa fa-shield form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <img class="col-xs-5" id="kaptcha" height="34px"
+                                 th:src="@{/kaptcha}"/>
+                        </div>
+                    </div>
+                    <!--登录按钮-->
+                    <div class="form-group">
+                        <button id="submit" type="submit" class="btn btn-primary btn-block btn-flat">登录
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <input id="rememberme" type="checkbox" name="remember-me" /> 记住我
+                        </input>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

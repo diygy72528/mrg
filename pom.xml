@@ -18,6 +18,8 @@
         <java.version>1.8</java.version>
         <!--mybatis plus-->
         <mybatisplus.version>3.1.0</mybatisplus.version>
+        <!--commons.text-->
+        <commons.text.version>1.6</commons.text.version>
     </properties>
 
     <dependencies>
@@ -31,11 +33,13 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--thymeleaf security-->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
 
         <!--thymeleaf-->
@@ -467,6 +471,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
+            <version>${commons.text.version}</version>
         </dependency>
         <!--生成验证码-->
         <dependency>

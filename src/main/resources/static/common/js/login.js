@@ -6,77 +6,53 @@ $(function() {
         var KAPTCHA = 'kaptcha';
         var REDIRECT = 'redirect';
 
-
         /**
          * 验证添加
          */
-        function addValid() {
-            var fields = {
-                username:{
-                    message: '用户名验证失败',
-                    validators: {
-                        notEmpty: {
-                            message: '用户名不能为空'
-                        },
-                        stringLength: {
-                            min: 6,
-                            max: 18,
-                            message: '用户名长度必须在6到18位之间'
-                        }
-                    }
-                },
-                password:{
-                    validators: {
-                        notEmpty: {
-                            message: '密码不能为空'
-                        },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_]+$/,
-                            message: '密码只能包含大写、小写、数字和下划线'
-                        }
-                    }
-                },
-                SESSION_IMAGE_CODE:{
-                    validators: {
-                        notEmpty: {
-                            message: '验证码不能为空'
-                        }
+        var fields = {
+            username:{
+                message: '用户名验证失败',
+                validators: {
+                    notEmpty: {
+                        message: '用户名不能为空'
+                    },
+                    stringLength: {
+                        min: 5,
+                        max: 18,
+                        message: '用户名长度必须在5到18位之间'
                     }
                 }
-            };
-            return new mrgValid("LOGIN-PAGE","form",fields);
-        }
-        var valid_obj = addValid();
-
-
-        /**
-         * 刷新验证码
-         */
-        function reloadCode() {
-            //清楚样式
-            $outer.find(".kaptcha").removeClass('has-success');
-            //清空输入框
-            $outer.find("#SESSION_IMAGE_CODE").val(null);
-            //刷新校验码
-            $outer.find("#kaptcha").attr("src", contextPath + "kaptcha?" + Math.random());
-        }
-
-        /**
-         * 验证码图片点击事件添加
-         */
-        $outer.find('#kaptcha').click(function() {
-            reloadCode();
-        })
-
-        /**
-         * 提交点击事件添加
-         */
-        $outer.find("#submit").click(function (e) {
-            e.preventDefault();
-            if(!valid_obj.validator.validate().isValid()) {
-                alert("请完善表单信息");
-                return;
+            },
+            password:{
+                validators: {
+                    notEmpty: {
+                        message: '密码不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: '密码只能包含大写、小写、数字和下划线'
+                    }
+                }
+            },
+            SESSION_IMAGE_CODE:{
+                validators: {
+                    notEmpty: {
+                        message: '验证码不能为空'
+                    }
+                }
             }
+        };
+        $outer.find('#form').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields:fields
+        }).on('success.form.bv',function (e) {
+            //验证成功事件
+            e.preventDefault();
             //禁止提交表单
             //获取公钥
             var encrypt = new JSEncrypt();
@@ -126,6 +102,27 @@ $(function() {
                     });
                 }
             });
-        });
+        });;
+
+
+        /**
+         * 刷新验证码
+         */
+        function reloadCode() {
+            //清除样式
+            $outer.find(".kaptcha").removeClass('has-success');
+            //清空输入框
+            $outer.find("#SESSION_IMAGE_CODE").val(null);
+            //刷新校验码
+            $outer.find("#kaptcha").attr("src", contextPath + "kaptcha?" + Math.random());
+        }
+
+        /**
+         * 验证码图片点击事件添加
+         */
+        $outer.find('#kaptcha').click(function() {
+            reloadCode();
+        })
+
     })
 })

@@ -1,0 +1,21 @@
+<!-- REQUIRED SCRIPTS -->
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="script">
+        <!-- jQuery -->
+        <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+        <!-- bootstrap -->
+        <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+        <!--editormd -->
+        <script th:src="@{/webjars/jquery-blockui/2.70/jquery.blockUI.js}"></script>
+
+        <!-- AdminLTE App -->
+        <script th:src="@{/static/common/dist/js/adminlte.js}"></script>
+        <script th:src="@{/static/common/dist/js/skins.js}"></script>
+        <!-- tabs标签js -->
+        <script th:src="@{/static/common/js/content-tabs.js}"></script>
+    </div>
+    <div th:fragment="bootstrap-table">
+        <!-- bootstrap-table.js -->
+        <script th:src="@{/webjars/bootstrap-table/1.14.1/dist/bootstrap-table.min.js}"></script>
+    </div>
+</html>

@@ -86,3 +86,17 @@ function ns(el, fn){
     el=typeof(el)==='string' ? $(el) : el;
     return fn(el);
 }
+
+
+function mrgTable(options) {
+    if(WebFn.isNull(options.id)) {
+        console.log('tableid不能为空');
+    }
+    var $table = $(options.id);
+    $table.bootstrapTable({
+        
+    })
+}
+
+
+

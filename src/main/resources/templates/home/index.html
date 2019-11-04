@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title th:text="${logo}"></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" th:href="@{/static/common/img/favicon.ico}">
+    <div th:include="fragments/style::header"></div>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:include="fragments/header"></div>
+    <div th:include="fragments/sidebar"></div>
+    <div th:include="fragments/content"></div>
+    <div th:include="fragments/control-sidebar"></div>
+    <div th:include="fragments/footer"></div>
+
+
+
+</div>
+<!-- ./wrapper -->
+<div th:include="fragments/script::script"></div>
+<!-- index.js -->
+<script th:src="@{/static/common/js/index.js}"></script>
+</body>
+</html>

@@ -2,14 +2,11 @@ package com.guyao.mrg.mvc.role.controller;
 
 
 import com.guyao.mrg.base.BaseController;
-import org.apache.catalina.security.SecurityUtil;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sun.plugin.liveconnect.SecurityContextHelper;
 
 /**
  * <p>

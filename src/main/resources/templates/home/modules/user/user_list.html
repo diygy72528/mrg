@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<header>
+    <div th:include="fragments/style::header"></div>
+    <div th:include="fragments/style::bootstrap-table"></div>
+</header>
+<body class="list-body">
+<section class="content">
+    <div class="row">
+        <!--左侧部分-->
+        <div class="col-xs-2">
+            <div class="ibox">
+                <div class="ibox-title dashboard-header gray-bg">
+                    <h5>组织机构</h5>
+                    <div class="ibox-tools">
+                        <a onclick="loadOrg()"><i class="fa fa-refresh"></i></a>
+                    </div>
+                </div>
+                <div class="ibox-content-tree">
+                    <ul id="orgTree" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+        <!--右侧部分-->
+        <div class="col-xs-10">
+            <div class="ibox">
+                <div class="ibox-title dashboard-header gray-bg">
+                    <h5>用户列表</h5>
+                </div>
+                <div class="ibox-content-table">
+                    <table id="table" class="table table-bordered table-striped"
+                           data-mobile-responsive="true"></table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<div th:include="fragments/script::script"></div>
+<div th:include="fragments/script::bootstrap-table"></div>
+<script th:src="@{/static/modules/user/user.js}"></script>
+</html>

@@ -1,5 +1,6 @@
 package com.guyao.mrg.mvc.user.entity;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
@@ -86,5 +87,10 @@ public class User implements Serializable {
      * 用户状态
      */
     private Long userStatus;
+
+    /**
+     * 头像
+     */
+    private byte[] image;
 
 }

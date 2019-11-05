@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.guyao.mrg.mvc.role.entity.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField(exist = false)
     private List<Role> roleList;
 
     /**

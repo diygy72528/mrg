@@ -392,7 +392,7 @@
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>bootstrap-table</artifactId>
-            <version>1.14.1</version>
+            <version>1.15.4</version>
         </dependency>
         <!--inputmask-->
         <dependency>

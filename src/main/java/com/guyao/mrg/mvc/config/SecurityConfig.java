@@ -109,8 +109,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             for (Role r : user.getRoleList()) {
                 menus.addAll(menuService.findByRoleId(r.getId()));
             }
-            log.info("=====用户{}：具有菜单{}=====",menus);
-            log.info("=====用户{}：具有角色{}=====",user.getRoleList());
+            log.info("=====用户{}：具有菜单{}=====",user.getUserName(),menus);
+            log.info("=====用户{}：具有角色{}=====",user.getUserName(),user.getRoleList());
             return LoginUserDetails.builder().username(user.getAccount()).password(user.getPassword()).menus(menus).build();
         };
     }

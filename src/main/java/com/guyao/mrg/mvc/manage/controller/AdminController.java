@@ -4,8 +4,10 @@ import com.guyao.mrg.base.BaseController;
 import com.guyao.mrg.base.MrG;
 import com.guyao.mrg.mvc.manage.entity.Kaptcha;
 import com.guyao.mrg.mvc.manage.service.AdminControllerService;
+import com.guyao.mrg.mvc.menu.service.IMenuService;
 import com.guyao.mrg.result.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,9 @@ public class AdminController extends BaseController {
     @Autowired
     private AdminControllerService adminService;
 
+    @Autowired
+    private IMenuService menuService;
+
 
 
     @GetMapping("/login")
@@ -53,6 +58,7 @@ public class AdminController extends BaseController {
     @GetMapping({"","/index"})
     public String index(Model model) {
         model.addAttribute("brand","通用权限管理");
+        model.addAttribute("menu",menuService.getMenus());
         return "index";
     }
 

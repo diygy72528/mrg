@@ -28,3 +28,4 @@ mybatis-plus:
     aggressive-lazy-loading: false
     cache-enabled: true
     lazy-loading-enabled: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

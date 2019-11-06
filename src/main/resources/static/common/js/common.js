@@ -89,29 +89,46 @@ function ns(el, fn){
 
 
 function mrgTable(options) {
+    var tab_obj = this;
     if(WebFn.isNull(options.id)) {
         console.log('tableid不能为空');
+    }
+    tab_obj.queryParams = function(params) {
+        var result = {
+            size:params.pageSize,
+            current:params.pageNumber,
+            searchText:params.searchText,
+            sortName:params.sortName,
+            sortOrder:params.sortOrder
+        };
+        $.extend(result,options.customParams);
+        return result;
     }
     var defaultOptions = {
         url:options.url,//服务端数据源
         method:'post',//请求方式
-        contentType:'application/json',//请求格式
         locale:'zh-CN',//汉化
         columns:options.columns,//列
         pagination:true,//展示分页
+        contentType: "application/x-www-form-urlencoded",//此种格式对应post请求数据
         sidePagination:'server',//服务端分页
-        queryParams:options.queryParams,
+        queryParams:tab_obj.queryParams,
+        showRefresh:true,//展示刷新按钮
+        showColumns:true,//展示列菜单
+        showToggle:true,//展示列表切换按钮（卡片：表单）
         cache:false,//不缓存
-        search:true,//展示搜索框
-        showSearchButton:true,//展示搜索按钮
-        showButtonText:true,//展示按钮文本
+        //search:true,//展示搜索框
+        //showSearchButton:true,//展示搜索按钮
+        //checkBoxHeader:true,//展示全选checkbox
+        //showButtonText:true,//展示按钮文本
         clickToSelect:true,//点击行以选中
         toolbar:options.toolbar,//自定义工具栏
-        queryParamsType:''//传输{"searchText":"","sortOrder":"asc","pageSize":10,"pageNumber":1}
+        queryParamsType:'',//传输{"searchText":"","sortOrder":"asc","pageSize":10,"pageNumber":1,"sortName":"name","sortOrder":"desc"}
     };
     $.extend(defaultOptions,options.table);
     var $table = $('#'+options.id);
-    $table.bootstrapTable(defaultOptions)
+    $table.bootstrapTable(defaultOptions);
+
 }
 
 

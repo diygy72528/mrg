@@ -15,4 +15,6 @@ import java.util.List;
  */
 public interface IMenuService extends IService<Menu> {
     List<Menu> findByRoleId(String roleId);
+
+    List<Menu> getMenus();
 }

@@ -3,11 +3,12 @@ $(function() {
         id:'table',
         table:{
             url: contextPath+"user/list",
-            queryParams:function(params) {
-                params.is_delete = 0;
-                return params;
+            customParams:{
+                isDelete:0
             },
             columns:[{
+                checkbox:true
+            },{
                 title:'id',
                 field:'id',
                 visible:false

@@ -58,7 +58,7 @@ public class AdminController extends BaseController {
     @GetMapping({"","/index"})
     public String index(Model model) {
         model.addAttribute("brand","通用权限管理");
-        model.addAttribute("menu",menuService.getMenus());
+        model.addAttribute("menus",menuService.getMenus());
         return "index";
     }
 

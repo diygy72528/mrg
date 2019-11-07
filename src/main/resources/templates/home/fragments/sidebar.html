@@ -31,16 +31,31 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">导航栏</li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-user-circle"></i> <span>权限管理</span>
-                    <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li th:inline="javascript"><a href="#" onclick="javascript:void(0); addTabs({id:'123',title:'用户管理',close:true,url:'user'})">用户管理</a></li>
-                    <li><a href="#">角色管理</a></li>
-                </ul>
+            <th:block th:fragment="title(menus)">
+                <th:block th:each="menu : ${menus}">
+                    <th:block th:if="${#lists.size(menu.children)>0}">
+                        <li class="treeview">
+                            <a href="#">
+                                <i th:class="${menu.icon}"></i>
+                                <span th:text="${menu.name}"></span>
+                                <span class="pull-right-container"/>
+                            </a>
+                            <ul class="treeview-menu" th:include="this::title(${menu.children})">
+                            </ul>
+                        </li>
+                    </th:block>
+                    <th:block th:unless="${#lists.size(menu.children)}">
+                        <li th:inline="javascript" class="treeview">
+                            <a href="#" th:data-id="${menu.id}" th:data-name="${menu.name}" th:data-url="${menu.url}"
+                               onclick="javascript:void(0); addTabs({id:this.getAttribute('data-id'),title:this.getAttribute('data-name'),close:true,url:this.getAttribute('data-url')});">
+                                <i th:class="${menu.icon}"></i>
+                                <span th:text="${menu.name}"></span>
+                            </a>
+                        </li>
+                    </th:block>
+                </th:block>
+            </th:block>
+
             </li>
         </ul>
         <!-- /.sidebar-menu -->

@@ -2,13 +2,16 @@ package com.guyao.mrg.mvc.menu.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author guyao
@@ -80,6 +83,12 @@ public class Menu implements Serializable {
      * 修改时间
      */
     private LocalDateTime modifyTime;
+
+    /**
+     * 子菜单
+     */
+    @TableField(exist = false)
+    private List<Menu> children;
 
 
 }

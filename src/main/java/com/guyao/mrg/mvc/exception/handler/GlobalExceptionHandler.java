@@ -40,6 +40,7 @@ public class GlobalExceptionHandler {
 
 
     private boolean isAjaxRequest(HttpServletRequest request) {
+
         return false;
     }
 

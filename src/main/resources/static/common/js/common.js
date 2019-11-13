@@ -80,6 +80,18 @@ WebFn = {
         }
         return false;
     },
+    open:function(title,url,width,height,callback) {
+        layer.open({
+            type:2,
+            content:url,
+            area: [width, height],
+            closeBtn:2,
+            maxWidth:560,
+            maxHeight:400,
+            yes:callback,
+            btn:['确定','取消']
+        });
+    }
 }
 
 function ns(el, fn){
@@ -130,6 +142,9 @@ function mrgTable(options) {
     $table.bootstrapTable(defaultOptions);
 
 }
+
+
+
 
 
 

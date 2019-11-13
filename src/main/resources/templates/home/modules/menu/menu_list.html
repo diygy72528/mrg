@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+    <header>
+        <div th:include="fragments/style::header"></div>
+        <div th:include="fragments/style::bootstrap-table"></div>
+    </header>
+    <body class="list-body">
+        <section class="content">
+            <div class="ibox">
+                <div class="ibox-title dashboard-header gray-bg">
+                    <h5>菜单列表</h5>
+                </div>
+                <div class="ibox-content-tree-table">
+                    <table id="table" class="table table-bordered"
+                           ></table>
+                </div>
+            </div>
+        </section>
+    </body>
+    <div th:include="fragments/script::script"></div>
+    <div th:include="fragments/script::bootstrap-table"></div>
+    <script th:src="@{/static/modules/menu/menu.js}"></script>
+</html>

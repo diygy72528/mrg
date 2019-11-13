@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Producer;
 import com.guyao.mrg.base.MrGConstant;
 import com.guyao.mrg.mvc.manage.entity.Kaptcha;
 import com.guyao.mrg.mvc.manage.service.AdminControllerService;
+import com.guyao.mrg.mvc.utils.ImageUtils;
 import com.guyao.mrg.mvc.utils.RSAUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
@@ -41,9 +42,11 @@ public class AdminControllerServiceImpl implements AdminControllerService {
     @Override
     public void generateKaptcha(HttpServletRequest request, HttpServletResponse response) {
         //生成方式1：工具生成
-        String text = producer.createText();
+        /*String text = producer.createText();
         BufferedImage image = producer.createImage(text);
-        Kaptcha kaptcha = new Kaptcha(text, image, LocalDateTime.now().plusSeconds(60));
+        Kaptcha kaptcha = new Kaptcha(text, image, LocalDateTime.now().plusSeconds(60));*/
+        //生成方式2：手动生成
+        Kaptcha kaptcha = ImageUtils.createKaptcha();
         sessionSessionStrategy.setAttribute(new ServletWebRequest(request), MrGConstant.SESSIONKEY,kaptcha);
         try{
             ImageIO.write(kaptcha.getImage(),"JPEG",response.getOutputStream());

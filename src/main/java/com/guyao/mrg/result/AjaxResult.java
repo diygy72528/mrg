@@ -11,12 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 public class AjaxResult {
 
     public static final String REDIRECT = "redirect";
-    public static final String SUCCESS_STATUS = "0";
-    public static final String SUCCESS_MESSGAGE = "登陆成功";
+    public static final String LOGIN_SUCCESS_STATUS = "0";
+    public static final String LOGIN_SUCCESS_MESSGAGE = "登陆成功";
     public static final String FAILED_STATUS = "1";
     public static final String FAILED_MESSAGE = "登陆失败";
-    public static final String EXCEPTION_STATUS = "3";
-    public static final String ACCESS_DENIED = "4";
+    public static final String EXCEPTION_STATUS = "2";
+    public static final String ACCESS_DENIED = "3";
 
     //0为成功，1为失败。
     private String status;

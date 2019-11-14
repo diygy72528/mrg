@@ -91,6 +91,14 @@ WebFn = {
             yes:callback,
             btn:['确定','取消']
         });
+    },
+    alert:function(msg,icon) {
+        layer.alert(msg,{
+            icon: icon,
+            title: "系统提示",
+            btn:['确认']
+
+        })
     }
 }
 

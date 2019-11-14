@@ -34,9 +34,10 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("list")
-    @PreAuthorize("hasAuthority('manage:log:operate:index')")
     @ResponseBody
     public PageResult list(Page page, HttpServletRequest request) {
+        if(true)
+            throw new RuntimeException("测试异常");
         IPage pages = userService.page(page);
         return PageResult.builder().total(pages.getTotal()).rows(pages.getRecords()).build();
     }

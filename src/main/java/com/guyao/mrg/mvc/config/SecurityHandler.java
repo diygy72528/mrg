@@ -56,8 +56,8 @@ public class SecurityHandler {
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
 
         return (request, response , authentication) -> {
-            String status = AjaxResult.SUCCESS_STATUS;
-            String msg = AjaxResult.SUCCESS_MESSGAGE;
+            String status = AjaxResult.LOGIN_SUCCESS_STATUS;
+            String msg = AjaxResult.LOGIN_SUCCESS_MESSGAGE;
             RequestCache requestCache = new HttpSessionRequestCache();
             SavedRequest savedRequest = requestCache.getRequest(request, response);
             if(savedRequest != null && StringUtils.isNotEmpty(savedRequest.getRedirectUrl())) {

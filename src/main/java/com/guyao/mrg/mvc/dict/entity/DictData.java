@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author guyao
@@ -17,6 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ToString
 public class DictData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +57,11 @@ public class DictData implements Serializable {
      * 修改时间
      */
     private LocalDateTime modifyTime;
+
+    /**
+     * 字典值状态
+     */
+    private Long status;
 
     /**
      * 是否删除

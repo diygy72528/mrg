@@ -4,6 +4,7 @@ package com.guyao.mrg.mvc.user.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.guyao.mrg.base.BaseController;
+import com.guyao.mrg.mvc.user.entity.User;
 import com.guyao.mrg.mvc.user.service.IUserService;
 import com.guyao.mrg.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,8 @@ public class UserController extends BaseController {
 
     @PostMapping("list")
     @ResponseBody
-    public PageResult list(Page page, HttpServletRequest request) {
-        if(true)
-            throw new RuntimeException("测试异常");
-        IPage pages = userService.page(page);
+    public PageResult list(Page page, User user) {
+        IPage pages = userService.page(page,user);
         return PageResult.builder().total(pages.getTotal()).rows(pages.getRecords()).build();
     }
 

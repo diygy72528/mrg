@@ -2,6 +2,7 @@ package com.guyao.mrg.mvc.exception.handler;
 
 import com.guyao.mrg.result.AjaxResult;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,6 +49,18 @@ public class GlobalExceptionHandler {
         }
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public Object accessDenied(HttpServletRequest request,Exception accessDenied) {
+        if(isAjaxRequest(request)) {
+            return AjaxResult.builder()
+                    .msg(StringUtils.isEmpty(accessDenied.getMessage())? Arrays.toString(accessDenied.getStackTrace()):accessDenied.getMessage())
+                    .status(AjaxResult.ACCESS_DENIED)
+                    .build();
+        }else {
+            return getModel(accessDenied,request);
+        }
+
+    }
 
     private boolean isAjaxRequest(HttpServletRequest request) {
         String contentType = request.getContentType();

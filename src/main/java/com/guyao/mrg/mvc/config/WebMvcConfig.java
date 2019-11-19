@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -28,7 +29,9 @@ import java.util.List;
  * @date 2019/10/16 11:35 上午
  */
 @Configuration
+@TypeAlias("com.guyao.**.entity.**")
 public class WebMvcConfig implements WebMvcConfigurer , ServletContextInitializer {
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

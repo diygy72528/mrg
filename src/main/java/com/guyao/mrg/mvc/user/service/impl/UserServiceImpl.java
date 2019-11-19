@@ -1,6 +1,8 @@
 package com.guyao.mrg.mvc.user.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.guyao.mrg.mvc.user.entity.User;
 import com.guyao.mrg.mvc.user.mapper.UserMapper;
 import com.guyao.mrg.mvc.user.service.IUserService;
@@ -32,5 +34,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User findByUsername(String username) {
         return baseMapper.findByUsername(username);
+    }
+
+    @Override
+    public IPage page(Page page, User user) {
+        return baseMapper.page(page,user);
     }
 }

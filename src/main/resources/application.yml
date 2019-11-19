@@ -15,7 +15,7 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:mapper/**/**.xml
-  type-aliases-package: com.guyao.mvc.**.entity
+  type-aliases-package: com.guyao.mrg.**.entity
   global-config:
     db-config:
       id-type: uuid

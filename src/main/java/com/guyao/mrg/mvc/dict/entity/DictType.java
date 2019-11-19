@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author guyao
@@ -60,6 +60,11 @@ public class DictType implements Serializable {
      * 修改时间
      */
     private LocalDateTime modifyTime;
+
+    /**
+     * 字典状态
+     */
+    private Long status;
 
     /**
      * 是否删除

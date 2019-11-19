@@ -73,7 +73,7 @@ $(function() {
                             "password": encrypt.encrypt($outer.find('#password').val()),
                             "username": $outer.find('#username').val(),
                             "SESSION_IMAGE_CODE": $outer.find('#SESSION_IMAGE_CODE').val(),
-                            "remember-me": $outer.find('#rememberme').val()
+                            "remember-me": $outer.find('#rememberme').prop('checked')
                         },
                         success: function (data) {
                             if (OK === data.status) {
@@ -102,7 +102,7 @@ $(function() {
                     });
                 }
             });
-        });;
+        });
 
 
         /**

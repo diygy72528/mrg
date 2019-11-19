@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>字典类型</title>
+    <div th:include="fragments/style::header"></div>
+    <div th:include="fragments/style::bootstrap-table"></div>
+</head>
+<body class="list-body">
+<section class="content">
+    <div class="ibox">
+        <div class="ibox-title dashboard-header gray-bg">
+            <h5>字典类型</h5>
+        </div>
+        <div class="ibox-content-tree-table">
+            <table id="table" class="table table-bordered"
+            ></table>
+        </div>
+    </div>
+</section>
+</body>
+<div th:include="fragments/script::script"></div>
+<div th:include="fragments/script::bootstrap-table"></div>
+<script th:src="@{/static/modules/menu/menu.js}"></script>
+</html>

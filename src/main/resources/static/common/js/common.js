@@ -92,13 +92,13 @@ WebFn = {
             btn:['确定','取消']
         });
     },
-    alert:function(msg,icon) {
+    alert:function(msg,icon,callback) {
         layer.alert(msg,{
             icon: icon,
             title: "系统提示",
             btn:['确认']
 
-        })
+        },callback)
     }
 }
 
@@ -121,14 +121,14 @@ function mrgTable(options) {
             sortName:params.sortName,
             sortOrder:params.sortOrder
         };
-        $.extend(result,options.customParams);
+        $.extend(result,options.table.customParams);
         return result;
     }
     var defaultOptions = {
-        url:options.url,//服务端数据源
+        //url:options.table.url,//服务端数据源
         method:'post',//请求方式
         locale:'zh-CN',//汉化
-        columns:options.columns,//列
+        //columns:options.table.columns,//列
         pagination:true,//展示分页
         contentType: "application/x-www-form-urlencoded",//此种格式对应post请求数据
         sidePagination:'server',//服务端分页

@@ -1,6 +1,8 @@
 $(function() {
     var options = {
+        //tableid
         id:'table',
+        //bootstrap-table options
         table:{
             url: contextPath+"user/list",
             customParams:{

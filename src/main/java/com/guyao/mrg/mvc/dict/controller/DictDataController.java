@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2019-07-18
  */
 @Controller
-@RequestMapping("/dict-data")
+@RequestMapping("/dictData")
 public class DictDataController extends BaseController {
 
 }

@@ -2,4 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guyao.mrg.mvc.dict.mapper.DictTypeMapper">
 
+
+    <sql id="baseColumns">
+        id,
+        dict_type_ch_name,
+        dict_type_en_name,
+        dict_type_descript,
+        creater_id,
+        create_time,
+        modifier_id,
+        modify_time,
+        STATUS,
+        is_delete
+    </sql>
+    <select id="page" parameterType="dictType" resultType="dictType">
+        select
+        <include refid="baseColumns"></include>
+        from dict_type
+        where is_delete = #{dictType.isDelete}
+    </select>
 </mapper>

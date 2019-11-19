@@ -1,5 +1,7 @@
 package com.guyao.mrg.mvc.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.guyao.mrg.mvc.user.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,8 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-07-18
  */
 public interface IUserService extends IService<User> {
-    public void updateUserInfo();
+    void updateUserInfo();
 
-    public User findByUsername(String username);
+    User findByUsername(String username);
+
+    IPage page(Page page, User user);
 
 }

@@ -17,24 +17,38 @@
 
     </update>
 
+
+    <sql id="baseColumns">
+        id,
+        user_name,
+        account,
+        PASSWORD,
+        mobile,
+        email,
+        register_time,
+        last_login_time,
+        login_count,
+        is_delete,
+        remark,
+        user_status
+    </sql>
     <select id="findByUsername" resultMap="userResult">
         SELECT
-            id,
-            user_name,
-            account,
-            PASSWORD,
-            mobile,
-            email,
-            register_time,
-            last_login_time,
-            login_count,
-            is_delete,
-            remark,
-            user_status
+        <include refid="baseColumns"/>
         FROM
             user
         where account = #{username}
         and is_delete = 0
+    </select>
+
+    <select id="page" parameterType="user" resultType="user">
+        select
+        <include refid="baseColumns"/>
+        from
+            user
+        <where>
+            is_delete = #{user.isDelete}
+        </where>
     </select>
 
 </mapper>

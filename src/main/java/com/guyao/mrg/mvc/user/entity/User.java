@@ -10,6 +10,7 @@ import com.guyao.mrg.mvc.role.entity.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.apache.ibatis.type.Alias;
 
 /**
  * <p>

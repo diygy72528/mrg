@@ -28,7 +28,8 @@ $.ajaxSetup({
                 location.href = contextPath + 'login';
             })
         }
-
+        if(!xhr.responseJSON)
+            return
         var status = xhr.responseJSON.status;
         var msg = xhr.responseJSON.msg;
         switch (status) {

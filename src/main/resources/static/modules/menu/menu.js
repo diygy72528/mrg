@@ -1,11 +1,23 @@
 $(function() {
     var options = {
         id:'table',
+        detailUrl:contextPath+"menu/detail",
+        editUrl:contextPath+"menu/edit",
+        addUrl:contextPath+"menu/add",
+        deleteUrl:contextPath+"menu/delete",
+        modalName:"菜单",
         table:{
+            toolbar:'#toolbar',
             url: contextPath+"menu/list",
             customParams:{
                 isDelete:0
             },
+            clickToSelect:false,
+            idField: 'id',
+            treeShowField: 'name',
+            parentIdField: 'parentId',
+            showColumns:true,
+            initialState: 'collapsed',
             columns:[{
                 checkbox:true
             },{
@@ -15,15 +27,10 @@ $(function() {
             },{
                 title:'菜单名',
                 field:'name',
-                sortable:true,
-                sortName:'name',
                 order:'asc',
-                align:'center'
             },{
                 title:'类型',
                 field:'type',
-                sortable:true,
-                sortName:'type',
                 order:'asc',
                 align:'center'
             },{
@@ -44,10 +51,11 @@ $(function() {
                 width:50,
                 formatter:CURDButtons
             }
-            ]
+            ],
+
         }
     };
-    new mrgTable(options);
+    var table = new mrgTable(options);
     function iconFormatter(value, row, index) {
         return '<span class="'+value+'">'
     }

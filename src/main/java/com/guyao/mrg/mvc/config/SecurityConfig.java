@@ -77,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().invalidSessionUrl("/login")
                 .sessionFixation().migrateSession()
                 .maximumSessions(1).maxSessionsPreventsLogin(true).sessionRegistry(sessionRegistry())
-                .expiredUrl("/login");
+                .expiredUrl("/login?msg=expired");
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Security;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
+
+    private static final int BUTTONMENU = 1;
 
     @Override
     public List<Menu> findByRoleId(String roleId) {
@@ -46,6 +49,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     private void reLoadMenus(List<Menu> parents,List<Menu> menus) {
         for (Menu parent: parents ) {
+            //为底层菜单
+            if(parent.getType() == BUTTONMENU) {
+                parent.setChildren(new ArrayList<>());
+                continue;
+            }
             List<Menu> children = menus.parallelStream().filter(m -> parent.getId().equals(m.getParentId())).collect(Collectors.toList());
             parent.setChildren(children);
             reLoadMenus(children,menus);

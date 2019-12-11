@@ -9,6 +9,51 @@
             <div class="ibox">
                 <div class="ibox-title dashboard-header gray-bg">
                     <h5>菜单列表</h5>
+                    <div id="toolbar" class="pull-right">
+                        <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:query')">/*/-->
+                        <a class="btn btn-sm ibtn-primary query-a single" title="查询" data-toggle="tooltip"
+                                data-placement="left">
+                            <i class="fa fa-filter"></i> 查看
+                        </a>
+                        <!--/*/</th:block>/*/-->
+                        <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:add')">/*/-->
+                        <a type="button" class="btn btn-sm ibtn-info" data-toggle="tooltip" data-placement="left"
+                                title="新增"
+                                onclick="WebFn.add()">
+                            <i class="fa fa-plus"></i> 新增
+                        </a>
+                        <!--/*/</th:block>/*/-->
+                        <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:add')">/*/-->
+                        <a class="btn btn-sm bg-orange single" title="修改" data-toggle="tooltip" data-placement="left"
+                                onclick="$.operate.edit()">
+                            <i class="fa fa-pencil"></i> 修改
+                        </a>
+                        <!--/*/</th:block>/*/-->
+                        <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:del')">/*/-->
+                        <a class="btn btn-sm bg-maroon multiple" data-toggle="tooltip" data-placement="left" title="删除"
+                                onclick="$.operate.batRemove()"><i
+                                class="fa fa-trash-o"></i> 删除
+                        </a>
+                        <!--/*/</th:block>/*/-->
+                        <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:import') || hasAuthority('manage:dict:export')">/*/-->
+                        <div class="btn-group">
+                            <button type="button" class="btn ibtn-white btn-sm dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false" data-placement="left"
+                                    title="更多操作">
+                                更多操作<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:import')">/*/-->
+                                <li><a href="javascript:void(0);" onclick="$.operate.exportExcel()"><i
+                                        class="glyphicon glyphicon-export"></i> 导出</a></li>
+                                <!--/*/</th:block>/*/-->
+                                <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:export')">/*/-->
+                                <li><a href="javascript:void(0);" onclick="$.operate.importExcel()"><i class="glyphicon glyphicon-import"></i> 导入</a></li>
+                                <!--/*/</th:block>/*/-->
+                            </ul>
+                        </div>
+                        <!--/*/</th:block>/*/-->
+                    </div>
                 </div>
                 <div class="ibox-content-tree-table">
                     <table id="table" class="table table-bordered"

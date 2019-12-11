@@ -42,7 +42,7 @@ public class DictTypeController extends BaseController {
     @ResponseBody
     public PageResult page(Page page,DictType dictType) {
         IPage pages = dictTypeService.page(page,dictType);
-        return PageResult.builder().total(pages.getTotal()).rows(pages.getRecords()).build();
+        return pages == null?null:PageResult.builder().total(pages.getTotal()).rows(pages.getRecords()).build();
     }
 
 

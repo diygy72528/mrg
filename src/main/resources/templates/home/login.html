@@ -41,7 +41,7 @@ background-attachment: fixed;">
         <div class="card">
             <div class="login-box-body">
                 <!--错误消息-->
-                <p class="login-box-msg" style="color: red" id="msg"></p>
+                <p th:text="${msg}" class="login-box-msg" style="color: red" id="msg"></p>
                 <!--表单-->
                 <form th:action="@{/login}" onsubmit="return false" method="post" id="form" data-toggle="validator">
                     <!--用户名-->

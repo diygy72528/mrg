@@ -25,16 +25,24 @@ public class MenuController extends BaseController {
     @Autowired
     private IMenuService menuService;
 
+    private final String PREFIX = "modules/menu/";
+
     @GetMapping("")
     public String menu() {
-        return "modules/menu/menu_list";
+        return PREFIX + "/menu_list";
     }
+
 
     @PostMapping("list")
     @ResponseBody
     public PageResult menuList(Page page) {
         IPage pages = menuService.page(page);
         return PageResult.builder().total(pages.getTotal()).rows(pages.getRecords()).build();
+    }
+
+    @PostMapping("add")
+    public String add() {
+        return PREFIX + "add";
     }
 
 }

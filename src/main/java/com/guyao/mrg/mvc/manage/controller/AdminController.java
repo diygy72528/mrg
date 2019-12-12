@@ -36,10 +36,10 @@ public class AdminController extends BaseController {
     @Autowired
     private IMenuService menuService;
 
-    @GetMapping("404")
+    /*@GetMapping("404")
     public String notFound() {
         return "error/404";
-    }
+    }*/
 
     @GetMapping("/login")
     public String login(Model model,String msg) {

@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
      */
     private static final String STACK_TRACE = "stackTrace";
 
-    private static final String INTERNALEXCEPTION_PAGE = "error/500";
+    private static final String INTERNALEXCEPTION_PAGE = "templates/home/error/500";
 
     @ExceptionHandler(Exception.class)
     public Object defaultExceptionHandler(HttpServletRequest request, Exception e) {

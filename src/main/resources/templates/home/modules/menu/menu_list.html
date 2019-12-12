@@ -19,7 +19,7 @@
                         <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:add')">/*/-->
                         <a type="button" class="btn btn-sm ibtn-info" data-toggle="tooltip" data-placement="left"
                                 title="新增"
-                                onclick="WebFn.add()">
+                                onclick="$.operate.add(0)">
                             <i class="fa fa-plus"></i> 新增
                         </a>
                         <!--/*/</th:block>/*/-->
@@ -64,5 +64,5 @@
     </body>
     <div th:include="fragments/script::script"></div>
     <div th:include="fragments/script::bootstrap-table"></div>
-    <script th:src="@{/static/modules/menu/menu.js}"></script>
+    <script th:src="@{/static/modules/menu/menu_list.js}"></script>
 </html>

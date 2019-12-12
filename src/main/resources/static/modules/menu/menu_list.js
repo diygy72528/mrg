@@ -1,10 +1,9 @@
 $(function() {
     var options = {
         id:'table',
-        detailUrl:contextPath+"menu/detail",
-        editUrl:contextPath+"menu/edit",
-        addUrl:contextPath+"menu/add",
-        deleteUrl:contextPath+"menu/delete",
+        addUrl:contextPath+"menu/form/{id}",
+        editUrl:contextPath+"menu/form/{id}",
+        deleteUrl:contextPath+"menu/delete/{id}",
         modalName:"菜单",
         table:{
             toolbar:'#toolbar',

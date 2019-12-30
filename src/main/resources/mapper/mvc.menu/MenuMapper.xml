@@ -14,7 +14,8 @@
         m.is_delete,
         m.icon,
         m.create_time,
-        m.creater
+        m.creater,
+        m.order_num
     FROM
         menu m
         LEFT JOIN role_menu rm ON m.id = rm.menu_id

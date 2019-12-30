@@ -17,21 +17,43 @@ public class MrG {
     private final Project project = new Project();
 
     private final KaptchaProperties kaptcha = new KaptchaProperties();
-    @Data
-    public class Project {
+    public static class Project {
         /**
          * 名称
          */
-        private String name = "Mr.G 通用权限管理";
+        private String name = MrGDefault.Project.name;
         /**
          * 版本
          */
-        private String version = "v1.0.1";
+        private String version = MrGDefault.Project.version;
         /**
          * 技术支持
          */
-        private String poweredBy = "http://www.mrg.org";
+        private String poweredBy = MrGDefault.Project.poweredBy;
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
+
+        public String getPoweredBy() {
+            return poweredBy;
+        }
+
+        public void setPoweredBy(String poweredBy) {
+            this.poweredBy = poweredBy;
+        }
     }
 
     @Data

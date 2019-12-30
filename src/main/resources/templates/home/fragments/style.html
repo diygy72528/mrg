@@ -2,6 +2,10 @@
 <div th:fragment="header">
     <!-- bootstrap -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <!-- animate -->
+    <link rel="stylesheet" th:href="@{/static/common/css/modules/animate/animate.css}">
+    <!-- icheck -->
+    <link rel="stylesheet" th:href="@{/webjars/iCheck/1.0.2/skins/all.css}"/>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}">
     <!-- icons -->
@@ -16,6 +20,7 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" th:href="@{/static/common/dist/css/skins/_all-skins.css}">
     <link rel="stylesheet" th:href="@{/static/common/dist/css/AdminLTE.min.css}">
+
 </div>
 
 <div th:fragment="bootstrap-table">
@@ -23,5 +28,9 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.15.4/dist/bootstrap-table.min.css}">
     <!-- jquery-treegrid -->
     <link rel="stylesheet" th:href="@{/webjars/jquery-treegrid/0.3.0/css/jquery.treegrid.css}">
+</div>
+<div th:fragment="ztree">
+    <!-- ztree -->
+    <link rel="stylesheet" th:href="@{/webjars/zTree/3.5.37/css/metroStyle/metroStyle.css}">
 </div>
 </html>

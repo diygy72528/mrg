@@ -24,7 +24,7 @@ $.ajaxSetup({
         //异步ajax请求返回登陆页面时则session失效
         if(xhr.responseText != null && xhr.responseText.indexOf('LOGIN-PAGE')>0) {
             //登陆页面
-            WebFn.alert('登陆超时，请重新登陆！','warning',function () {
+            $.modal.alert('登陆超时，请重新登陆！','warning',function () {
                 location.href = contextPath + 'login';
             })
         }
@@ -41,11 +41,11 @@ $.ajaxSetup({
                 break;
             }
             case Response_Status.exception: {
-                WebFn.alert(msg,"warning")
+                $.modal.alert(msg,"warning")
                 break;
             };
             case Response_Status.accessdenied:{
-                WebFn.alert(msg,"warning",window.parent.closeCurrentTab);
+                $.modal.alert(msg,"warning",window.parent.closeCurrentTab);
             }
             default:{
                 break;

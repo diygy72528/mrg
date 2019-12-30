@@ -1,6 +1,10 @@
 (function($) {
     $.extend({
-        table:{},
+        table:{
+            reload:function() {
+                $('#table').bootstrapTable('reload',{silent:true});
+            }
+        },
         modal:{
             open:function(title,url,width,height,callback) {
                 //如果是移动端，就使用自适应大小弹窗
@@ -34,11 +38,14 @@
                     title:title,
                     content:url,
                     area: [width+'px', height+'px'],
-                    fixed:false,
+                    fix:false,
                     shade:0.3,
                     maxmin:true,
                     yes:callback,
-                    btn:['确定','取消']
+                    btn:['确定','取消'],
+                    cancel:function(index) {
+                        return true;
+                    }
                 });
             },
             alert:function(msg,icon,callback) {
@@ -113,6 +120,62 @@
                 return false;
             },
 
+        },
+        tree:{
+            init:function(options) {
+                if($.WebFn.isNull(options.id)) {
+                    console.log('id不能为空');
+                    return false;
+                }
+                if($.WebFn.isNull(options.url)) {
+                    console.log('url不能为空');
+                    return false;
+                }
+                let $id = $('#'+options.id);
+                $id.after('<div id="treeForm" style="display: none">\n' +
+                    '                    <div>\n' +
+                    '                        关键字：<input id="keyWord"><a href="javascript:void(0)" class="btn btn-primary">搜索</a>\n' +
+                    '                    </div>\n' +
+                    '                    <div class="pull-right"><a href="javascript:void(0)">展开</a>/<a href="javascript:void(0)">折叠</a></div>\n' +
+                    '                    <div>\n' +
+                    '                        <ul id="tree" class="ztree"></ul>\n' +
+                    '                    </div>\n' +
+                    '                    <input name=options.name type="hidden">\n' +
+                    '                </div>');
+                $.post(options.url,function(data) {
+                    let defaultOpts = {
+                        expandLevel:0,
+                        data: {
+                            simpleData: {
+                                enable: true
+                            }
+                        }
+
+                    };
+                    $.extend(defaultOpts,options.setting);
+                    $._tree = $.fn.zTree.init($('#tree'),defaultOpts,data);
+                    function open() {
+                        layer.open({
+                            type:1,
+                            title:options.title,
+                            offset: '50px',
+                            content:jQuery('#treeForm'),
+                            area: ['300px', '450px'],
+                            shade:0,
+                            shadeClose:false,
+                            yes:function() {
+                                $('#'+options.name).val('')
+                            },
+                            btn:['确定','取消'],
+                            cancel:function(index) {
+                                return true;
+                            }
+                        })
+                    }
+                    $id.bind('click',open);
+
+                })
+            }
         }
     });
 })(jQuery)

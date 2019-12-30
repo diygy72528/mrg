@@ -1,5 +1,7 @@
 package com.guyao.mrg.mvc.menu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.guyao.mrg.base.ZTree;
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import com.guyao.mrg.mvc.menu.mapper.MenuMapper;
 import com.guyao.mrg.mvc.menu.service.IMenuService;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Security;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +48,29 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         List<Menu> result = menus.parallelStream().filter(m->StringUtils.isEmpty(m.getParentId())).collect(Collectors.toList());
         reLoadMenus(result,menus);
         return result;
+    }
+
+    @Override
+    public List<ZTree> getTreeMenu() {
+        QueryWrapper<Menu> wrapper = new QueryWrapper<>();
+        HashMap<String, Object> eqs = new HashMap<>();
+        eqs.put("is_delete","0");
+        wrapper.allEq(eqs);
+        List<Menu> menus = baseMapper.selectList(wrapper);
+        return initTreeData(menus);
+    }
+
+    private List<ZTree> initTreeData(List<Menu> menus) {
+        ArrayList<ZTree> zTrees = new ArrayList<>();
+        for (Menu menu : menus) {
+            ZTree zTree = new ZTree();
+            zTree.setId(menu.getId());
+            zTree.setName(menu.getName());
+            zTree.setTitle(menu.getName());
+            zTree.setPId(menu.getParentId());
+            zTrees.add(zTree);
+        }
+        return zTrees;
     }
 
     private void reLoadMenus(List<Menu> parents,List<Menu> menus) {

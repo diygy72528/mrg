@@ -1,5 +1,6 @@
 package com.guyao.mrg.mvc.menu.service;
 
+import com.guyao.mrg.base.ZTree;
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -17,4 +18,6 @@ public interface IMenuService extends IService<Menu> {
     List<Menu> findByRoleId(String roleId);
 
     List<Menu> getMenus();
+
+    List<ZTree> getTreeMenu();
 }

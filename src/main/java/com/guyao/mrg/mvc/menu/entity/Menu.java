@@ -91,4 +91,10 @@ public class Menu implements Serializable {
     private List<Menu> children;
 
 
+    /**
+     * 显示排序
+     */
+    private Integer orderNum;
+
+
 }

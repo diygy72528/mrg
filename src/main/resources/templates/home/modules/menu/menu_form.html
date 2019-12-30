@@ -2,42 +2,95 @@
 <html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
     <header>
         <div th:include="fragments/style::header"></div>
+        <div th:include="fragments/style::ztree"></div>
     </header>
-    <body class="list-body">
-        <form id="menuForm" >
-            <input name="menuId"   type="hidden" th:field="*{id}"   />
-            <div class="row">
-                <div class="col-sm-6">
+    <body class="white-bg">
+            <div class="wrapper wrapper-content animated fadeInRight ibox-content ">
+                <form class="form-horizontal m" id="menuForm" th:object="${menu}" >
+                    <input name="menuId"   type="hidden" th:field="*{id}"   />
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">上级菜单：</label>
+                        <label class="col-sm-3 control-label ">上级菜单：</label>
                         <div class="col-sm-8">
-                            <div class="input-group" style="width: 100%">
-                                <input readonly="readonly" type="text" id="pop-up-menu-tree"
-                                       th:value="*{parentId}" placeholder="请选择上级菜单"
-                                       class="form-control"/>
-                                <span class="input-group-addon">
-                                    <i class="fa fa-search"></i>
-                                </span>
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="treeName" readonly="true" th:value="${parentId == null ? '' : parentId}">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" title="菜单名称">
+                        <label class="col-sm-3 control-label" title="菜单类型">
+                            菜单类型：</label>
+                        <div class="col-sm-8">
+                            <label class="radio-box label-radio"> <input type="radio" class="minimal" th:field="*{type}" name="type" value="0" /> 目录 </label>
+                            <label class="radio-box label-radio"> <input type="radio" class="minimal" th:field="*{type}" name="type" value="1" /> 菜单 </label>
+                            <label class="radio-box label-radio"> <input type="radio" class="minimal" th:field="*{type}" name="type" value="2" /> 按钮 </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" title="菜单名称">
                             <font color="red">*</font>菜单名称：
                         </label>
                         <div class="col-sm-8">
                             <input class="form-control" type="text"
                                    maxlength="50" autocomplete="off" placeholder="请输入菜单名称" id="menuName"
-                                   name="menuName" th:field="*{name}" required>
+                                   name="menuName" th:value="*{name}" required>
                         </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" title="请求路径">
+                            请求路径：
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text"
+                                   maxlength="50" autocomplete="off" placeholder="请输入请求路径" id="url"
+                                   name="url" th:value="*{url}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" title="权限标识">
+                            权限标识：
+                        </label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input class="form-control" type="text"
+                                       maxlength="50" autocomplete="off" placeholder="请输入权限标识" id="permission"
+                                       name="permission" th:value="*{permission}" required>
+                                <span class="input-group-addon"><i class="ion-help-circled" title='控制器中定义的权限标识，如：@RequiresPermissions("")'></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" title="显示排序">
+                            显示排序：
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text"
+                                   maxlength="50" autocomplete="off" placeholder="请输入显示排序" id="orderNum"
+                                   name="orderNum" th:value="*{orderNum}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">图标：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group col-sm-12">
+                                <span style="width:50px" class="input-group-addon"><i id="icon-preview" th:class="*{icon}"></i></span>
+                                <input readonly="readonly" autocomplete="off" name="icon" class="form-control" type="text" placeholder="选择图标"/>
+                            </div>
+                            <div class="ms-parent" style="width: 100%;">
+                                <div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto">
+                                    <div data-th-include="modules/menu/icon"></div>
+                                </div>
+                                <div  class="icon-drop pull-right animated flipInX" style="margin: 5px;display: none;">
+                                    <btn class="btn btn-primary" id="confirm" >确定</btn>
+                                    <btn class="btn btn-default" id="cancel" >取消</btn>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-        </form>
     </body>
     <div th:include="fragments/script::script"></div>
+    <div th:include="fragments/script::ztree"></div>
     <script th:src="@{/static/modules/menu/menu_form.js}"></script>
 </html>

@@ -4,14 +4,83 @@
 }
 
 body {
-    min-width: 970px;
     font: 14px Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif !important;
+}
+
+.wrapper{
+    padding: 0 20px;
+}
+
+.wrapper-content{
+    padding: 20px;
 }
 
 .overview-panel {
     background-color: #fff;
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .2);
     margin-bottom: 20px;
+}
+
+/**
+ * icheck
+ */
+/** iCheck **/
+.icheckbox, .icheckbox-blue, .iradio, .iradio-blue, .iradio-purple {
+    position: absolute;
+    top: 8px;
+    left: 0
+}
+
+.icheckbox-blue,.iradio-blue {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    background: url(../img/blue.png) no-repeat;
+    border: none;
+    cursor: pointer
+}
+
+.icheckbox-blue,.icheckbox-blue.static:hover {
+    background-position: 0 0
+}
+
+.icheckbox-blue.hover,.icheckbox-blue:hover {
+    background-position: -20px 0
+}
+
+.icheckbox-blue.checked {
+    background-position: -40px 0
+}
+
+.icheckbox-blue.disabled {
+    background-position: -60px 0;
+    cursor: default
+}
+
+.icheckbox-blue.checked.disabled {
+    background-position: -80px 0
+}
+.iradio-blue,.iradio-blue.static:hover {
+    background-position: -100px 0
+}
+
+.iradio-blue.hover,.iradio-blue:hover {
+    background-position: -120px 0
+}
+
+.iradio-blue.checked {
+    background-position: -140px 0
+}
+
+.iradio-blue.disabled {
+    background-position: -160px 0;
+    cursor: default
+}
+
+.iradio-blue.checked.disabled {
+    background-position: -180px 0
 }
 
 .dropdown-menu.text-left a,
@@ -39,23 +108,17 @@ body .wrapper .main-header .navbar .dropdown-menu li.active > a:hover {
     background: #222d32;
 }
 
+
+
+.search .form-group input {
+    width: 123px;
+    height: 28px;
+}
 .input-group label {
     display: inline-block;
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: 400;
-}
-
-.form-group label {
-    display: inline-block;
-    max-width: 100%;
-    margin-bottom: 5px;
-    font-weight: 400;
-}
-
-.search .form-group input {
-    width: 123px;
-    height: 28px;
 }
 
 .form-radio {
@@ -264,7 +327,7 @@ span.input-group-addon:hover {
 .ibox-content {
     background-color: #fff;
     color: inherit;
-    padding: 15px 20px 15px 20px;
+    padding: 15px 20px 20px 20px;
     -webkit-border-image: none;
     -o-border-image: none;
     border-image: none;
@@ -833,9 +896,19 @@ ul.clear-list:first-child {
     border-color: #F5222D;
 }
 
+/** 复选框&单选框  **/
+.check-box,.radio-box {
+    display: inline-block;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    padding-right: 15px;
+    padding-top: 8px;
+}
+
 .label-radio {
-    margin-top: 5px;
-    margin-right: 5px
+    font-weight: 400;
 }
 
 /*验证 end*/

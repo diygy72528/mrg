@@ -3,6 +3,7 @@ $(function() {
         id:'table',
         addUrl:contextPath+"menu/form/{id}",
         editUrl:contextPath+"menu/form/{id}",
+        saveOrUpdateUrl: contextPath + "menu/saveOrUpdate",
         deleteUrl:contextPath+"menu/delete/{id}",
         modalName:"菜单",
         table:{

@@ -18,10 +18,10 @@ import java.util.Map;
  * @author guyao
  * @date 2019/11/15 3:41 下午
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = RedisConfig.class)
+/*@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = RedisConfig.class)*/
 public class RedisTest {
-    @Autowired
+    /*@Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -85,6 +85,6 @@ public class RedisTest {
         System.out.println(o);
         Map hash1 = ops.entries("hash");
         System.out.println(hash1);
-    }
+    }*/
 
 }

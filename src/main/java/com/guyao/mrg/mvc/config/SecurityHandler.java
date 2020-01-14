@@ -43,7 +43,7 @@ public class SecurityHandler {
             log.info("----------------------------------------------------------");
             log.info("未登录,或登录过期");
             log.info("----------------------------------------------------------");
-            response.sendRedirect("/login");
+            response.sendRedirect("/login?msg=invalid");
         };
     }
 

@@ -130,6 +130,8 @@ body .wrapper .main-header .navbar .dropdown-menu li.active > a:hover {
     padding-right: 8px;
 }
 
+.has-feedback label > .form-control-feedback{right:-20px !important;}
+
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     background-color: #ffffff;
 }

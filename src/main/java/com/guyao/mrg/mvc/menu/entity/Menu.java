@@ -9,6 +9,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  *
@@ -32,11 +36,13 @@ public class Menu implements Serializable {
     /**
      * 菜单名
      */
+    @NotEmpty
     private String name;
 
     /**
      * 菜单类型
      */
+    @NotNull
     private Integer type;
 
     /**
@@ -47,7 +53,7 @@ public class Menu implements Serializable {
     /**
      * 删除标记
      */
-    private String isDelete;
+    private String isDelete = "0";
 
     /**
      * 图标

@@ -85,4 +85,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
             reLoadMenus(children,menus);
         }
     }
+
+
+    @Override
+    public boolean saveOrUpdate(Menu entity) {
+        return super.saveOrUpdate(entity);
+    }
 }

@@ -47,8 +47,37 @@ $(function(){
         url:contextPath + 'menu/treeData',
         id:'treeName',
         name:'parentId',
-        title:'菜单结构'
+        title:'请选择'
     });
+
+    //初始化校验
+    let fields = {
+        type: {
+            message: '请选择类型',
+            validators: {
+                notEmpty: {
+                }
+            }
+        },
+        name: {
+            message: '名称校验失败',
+            validators: {
+                notEmpty: {
+                    message: '名称不能为空'
+                }
+            }
+        }
+    };
+    let valid_obj = mrgValid('menuForm',fields);
+    //绑定保存和取消
+    $('#save').bind('click',function() {
+        if(valid_obj.validator.validate().isValid()) {
+            $.operate.post(contextPath + 'menu/saveOrUpdate',$('#menuForm').serialize(),$.table.reload);
+        }
+    });
+    $('#cancel').bind('click',function() {
+        parent.closeCurrentTab();
+    })
 });
 
 

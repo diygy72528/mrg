@@ -20,4 +20,5 @@ public interface IMenuService extends IService<Menu> {
     List<Menu> getMenus();
 
     List<ZTree> getTreeMenu();
+
 }

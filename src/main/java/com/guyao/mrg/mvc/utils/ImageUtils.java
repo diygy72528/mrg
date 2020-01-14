@@ -42,7 +42,7 @@ public class ImageUtils {
 
             }
             g.dispose();
-            return new Kaptcha(sRand, image, LocalDateTime.now().plusSeconds(60));
+            return new Kaptcha(sRand, image, LocalDateTime.now().plusMinutes(3));
         }
 
         /**

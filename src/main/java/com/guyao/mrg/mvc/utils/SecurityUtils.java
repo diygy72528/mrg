@@ -5,6 +5,7 @@ import com.guyao.mrg.mvc.security.LoginUserDetails;
 import com.guyao.mrg.mvc.user.entity.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

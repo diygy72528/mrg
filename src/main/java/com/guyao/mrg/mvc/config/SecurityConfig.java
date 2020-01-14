@@ -8,6 +8,7 @@ import com.guyao.mrg.mvc.security.LoginAuthenticationProvider;
 import com.guyao.mrg.mvc.security.LoginUserDetails;
 import com.guyao.mrg.mvc.user.entity.User;
 import com.guyao.mrg.mvc.user.service.IUserService;
+import com.guyao.mrg.mvc.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -74,10 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .rememberMe();
-        http.sessionManagement().invalidSessionUrl("/login")
+        http.sessionManagement()
+                //.invalidSessionUrl("/login?msg=invalid")//首次访问网站无session时触发,此处设置会导致expiredUrl配置失效，因此取消
                 .sessionFixation().migrateSession()
-                .maximumSessions(1).maxSessionsPreventsLogin(true).sessionRegistry(sessionRegistry())
-                .expiredUrl("/login?msg=expired");
+                .maximumSessions(1).maxSessionsPreventsLogin(false).sessionRegistry(sessionRegistry())
+                .expiredUrl("/login?msg=expired");//session过期（expired）触发(ConcurrentSessionFilter控制，例如：被人挤下来)
     }
 
     @Override
@@ -86,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private String[] antMatchers() {
-        return new String[]{"/static/**","/webjars/**","/kaptcha","/publicKey","/favicon.ico"};
+        return new String[]{"/static/**","/webjars/**","/kaptcha","/publicKey","/favicon.ico","/login"};
     }
 
     @Bean

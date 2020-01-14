@@ -9,6 +9,8 @@
     <script th:src="@{/webjars/jquery-blockui/2.70/jquery.blockUI.js}"></script>
     <!-- icheck -->
     <script th:src="@{/webjars/iCheck/1.0.2/icheck.min.js}"></script>
+    <!-- bootstrapValidator -->
+    <script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.js}"></script>
     <!-- AdminLTE App -->
     <script th:src="@{/static/common/dist/js/adminlte.js}"></script>
     <script th:src="@{/static/common/dist/js/skins.js}"></script>
@@ -26,15 +28,6 @@
         contextPath = /*[[@{/}]]*/ '';
         /*]]>*/
     </script>
-    <script>
-        $(function () {
-            //iCheck
-            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                checkboxClass: 'icheckbox-blue',
-                radioClass: 'iradio-blue'
-            });
-        });
-    </script>
 </div>
 <div th:fragment="bootstrap-table">
         <!-- bootstrap-table.js -->
@@ -48,6 +41,9 @@
 <div th:fragment="ztree">
     <!-- ztree -->
     <script th:src="@{/webjars/zTree/3.5.37/js/jquery.ztree.all.min.js}"></script>
+    <script th:src="@{/webjars/zTree/3.5.37/js/jquery.ztree.excheck.min.js}"></script>
+    <script th:src="@{/webjars/zTree/3.5.37/js/jquery.ztree.exedit.min.js}"></script>
+    <script th:src="@{/webjars/zTree/3.5.37/js/jquery.ztree.exhide.min.js}"></script>
 </div>
 </html>
 

@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/static/common/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" th:href="@{/static/common/css/login.css}"/>
     <!-- 登陆页占满整个浏览器 -->
     <script>
         if (top.location != location) {
@@ -41,7 +42,7 @@ background-attachment: fixed;">
         <div class="card">
             <div class="login-box-body">
                 <!--错误消息-->
-                <p th:text="${msg}" class="login-box-msg" style="color: red" id="msg"></p>
+                <p class="login-box-msg" style="color: red" id="msg"></p>
                 <!--表单-->
                 <form th:action="@{/login}" onsubmit="return false" method="post" id="form" data-toggle="validator">
                     <!--用户名-->
@@ -116,8 +117,9 @@ background-attachment: fixed;">
 <div class="footer" id="footer">
     <div class="container">
         <p align="center" style="font-size: 15px" class="center-block">
-            版权所有 &copy; <a href="https://www.mrg.org" th:text="${title}"></a>
+            版权所有 &copy; <a href="https://www.mrg.org" th:text="${logo}"></a>
             <span th:text="${'2018 - '+#dates.format(new java.util.Date().getTime(), 'yyyy')}"></span>
+            <span>ICP证：<a href="#" onclick="window.open('http://www.beian.miit.gov.cn')">渝ICP备19015121号</a></span>
         </p>
     </div>
 </div>
@@ -131,7 +133,25 @@ background-attachment: fixed;">
     /*<![CDATA[*/
     contextPath = /*[[@{/}]]*/ '';
     /*]]>*/
+
+    $(function(){
+        function matchMsg(msg) {
+            if(msg == 'invalid') {
+                return "身份认证已过期，请重新登陆！";
+            }
+            if(msg == 'expired') {
+                return '您已被强制下线,请重新登陆！';
+            }
+            return msg;
+        }
+        //初始化信息展示
+        var msg = [[${msg}]];
+        if(!$.WebFn.isNull(msg)) {
+            var message = matchMsg(msg);
+            $('#msg').text(message);
+        }
+    })
 </script>
-<script th:src="@{/static/common/js/login.js}"></script>
+<script th:inline="javascript" th:src="@{/static/common/js/login.js}"></script>
 </body>
 </html>

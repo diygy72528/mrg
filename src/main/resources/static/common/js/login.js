@@ -1,8 +1,8 @@
 $(function() {
     ns("#LOGIN-PAGE", function ($outer) {
 
-        var FAILED = '1';
-        var OK = '0';
+        var FAILED = '5';
+        var OK = '4';
         var KAPTCHA = 'kaptcha';
         var REDIRECT = 'redirect';
 

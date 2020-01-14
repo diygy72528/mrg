@@ -1,12 +1,14 @@
 (function($) {
     $.extend({
         table:{
-            reload:function() {
-                $('#table').bootstrapTable('reload',{silent:true});
+            refresh:function() {
+                $('#table').bootstrapTable('refresh',{silent:true});
+            },
+            getSelections: function() {
             }
         },
         modal:{
-            open:function(title,url,width,height,callback) {
+            open:function(title,url,width,height,callback,cancel) {
                 //如果是移动端，就使用自适应大小弹窗
                 if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
                     width = 'auto';
@@ -33,6 +35,11 @@
                         iframeWin.contentWindow.doSubmit();
                     }
                 }
+                if($.WebFn.isNull(cancel)) {
+                    cancel = function(index) {
+                        return  true;
+                    }
+                }
                 layer.open({
                     type:2,
                     title:title,
@@ -56,15 +63,81 @@
 
                 },callback)
             },
+            confirm: function(msg,icon,callback) {
+
+            },
+            warning: function(msg) {
+                layer.open({icon: 2,content:msg});
+
+            },
+            //打开遮罩层
+            loading: function(message) {
+                App.blockUI({
+                    boxed: true,
+                    message: message,
+                    animate: false
+                })
+                //$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div> ' + message + '</div>' });
+            },
+            //关闭遮罩层
+            closeLoading: function() {
+                setTimeout(function () {
+                    App.unblockUI();
+                }, 50);
+            }
         },
         operate:{
+            submit: function(url, type, dataType, data, callback) {
+                $.ajax({
+                    url: url,
+                    type: type,
+                    dataType: dataType,
+                    data: data,
+                    success: function(result) {
+                        if(!$.WebFn.isNull(result) && result.status == 0) {
+                            if((typeof callback) == 'function') {
+                                callback(result);
+                            }
+                            $.operate.ajaxSuccess(result.msg);
+                        }else {
+                            $.operate.ajaxFailed(!$.WebFn.isNull(result) && !$.WebFn.isNull(result.msg) ? result.msg : "操作失败！");
+                        }
+                    },
+                    beforeSend: function() {
+                        $.modal.loading('处理中，请稍后...');
+                    }
+                })
+
+            },
+            post: function(url,data,callback) {
+                $.operate.submit(url, 'post', 'json', data, callback)
+            },
+            get: function(url,data,callback) {
+                $.operate.submit(url, 'get', 'json', data, callback)
+            },
             edit:function(id) {
 
             },
             add:function(id) {
                 let url = $.table.options.addUrl.replace('{id}',id);
-                $.modal.open("新增"+$.table.options.modalName,url)
+                $.modal.open("新增"+$.table.options.modalName,url);
+            },
+            addTab: function(id) {
+                let tab_id = "_tab" + Math.random().toString(36).substring(2);
+                let url = $.table.options.addUrl.replace('{id}',id);
+                addTab({id:tab_id,title:'新增' + $.table.options.modalName,close:true,url:url,list_id: window.frameElement.getAttribute('id').substring(7, window.frameElement.getAttribute('id').length)})
+            },
+            editTab: function() {
+            },
+            ajaxSuccess: function(msg) {
+                $.modal.alert(msg,1);
+                $.modal.closeLoading();
+            },
+            ajaxFailed: function(msg) {
+                $.modal.warning(msg);
+                $.modal.closeLoading();
             }
+
         },
         WebFn:{
 
@@ -131,79 +204,168 @@
                     console.log('url不能为空');
                     return false;
                 }
+                let treeForm = 'treeForm'+ Math.random().toString(36).substring(2);
+                let keyWord = 'keyWord'+ Math.random().toString(36).substring(2);
+                let fold = 'fold'+ Math.random().toString(36).substring(2);
+                let unFold = 'unFold'+ Math.random().toString(36).substring(2);
                 let $id = $('#'+options.id);
-                $id.after('<div id="treeForm" style="display: none">\n' +
-                    '                    <div>\n' +
-                    '                        关键字：<input id="keyWord"><a href="javascript:void(0)" class="btn btn-primary">搜索</a>\n' +
-                    '                    </div>\n' +
-                    '                    <div class="pull-right"><a href="javascript:void(0)">展开</a>/<a href="javascript:void(0)">折叠</a></div>\n' +
-                    '                    <div>\n' +
-                    '                        <ul id="tree" class="ztree"></ul>\n' +
-                    '                    </div>\n' +
-                    '                    <input name=options.name type="hidden">\n' +
-                    '                </div>');
-                $.post(options.url,function(data) {
-                    let defaultOpts = {
-                        expandLevel:0,
-                        data: {
-                            simpleData: {
-                                enable: true
-                            }
+                let tool = {
+                    search: function() {
+                        let nodes = tool.tree.getNodes();
+                        let word = $('#' + keyWord).val();
+                        if(word === "") {
+                            tool.showNodes(nodes);
+                            return;
                         }
+                        if(tool.lastSearch === word) {
+                            //与上次搜索相同,不再搜索
+                            return;
+                        }
+                        tool.hideAllNodes(nodes);
+                        let nodesByParamFuzzy = tool.tree.getNodesByParamFuzzy('name',word);
+                        tool.showNodes(nodesByParamFuzzy);
 
-                    };
-                    $.extend(defaultOpts,options.setting);
-                    $._tree = $.fn.zTree.init($('#tree'),defaultOpts,data);
-                    function open() {
-                        layer.open({
-                            type:1,
-                            title:options.title,
-                            offset: '50px',
-                            content:jQuery('#treeForm'),
-                            area: ['300px', '450px'],
-                            shade:0,
-                            shadeClose:false,
-                            yes:function() {
-                                $('#'+options.name).val('')
-                            },
-                            btn:['确定','取消'],
-                            cancel:function(index) {
-                                return true;
+                    },
+                    hideAllNodes: function(nodes) {
+                        nodes = tool.tree.transformToArray(nodes);
+                        for(var i=nodes.length-1; i>=0; i--) {
+                            tool.tree.hideNode(nodes[i]);
+                        }
+                    },
+                    confirm:function(index) {
+                        let node = tool.tree.getSelectedNodes();
+                        console.log(node[0].id)
+                        console.log(node[0].name)
+                        $('#' + options.name).val(node[0].id);
+                        $('#' + options.id).val(node[0].name)
+                        layer.close(index);
+
+                    },
+                    fold: function() {
+                        tool.tree.expandAll(false);
+                    },
+                    unFold: function() {
+                        tool.tree.expandAll(true);
+                    },
+                    showNodes:function(nodes) {
+                        tool.tree.showNodes(nodes);
+                        for(var i = nodes.length - 1; i>=0 ;i--) {
+                            tool.tree.expandNode(nodes[i],true,false);
+                            tool.showParent(nodes[i]);
+                            tool.showChildren(nodes[i]);
+                        }
+                    },
+                    showParent: function(node) {
+                        let parentNode;
+                        let treeObj = $.fn.zTree.getZTreeObj("tree");
+                        if((parentNode = node.getParentNode()) != null) {
+                            tool.tree.showNode(parentNode);
+                            tool.tree.expandNode(parentNode,true,false);
+                            tool.showParent(parentNode);
+                        }
+                    },
+                    showChildren: function(node) {
+                        if(node.isParent == false) {
+                            return;
+                        }
+                        node = tool.tree.transformToArray(node);
+                        for(let i = node.length - 1; i >= 0; i--) {
+                            tool.tree.showNode(node[i]);
+                            tool.tree.expandNode(node[i],true,false);
+                        }
+                    },
+                    doInit:function() {
+                        $id.after('<input id="' + options.name + '" name="'+options.name+'" type="hidden">');
+                        $('body').before('<div id="'+treeForm+'" style="display: none">\n' +
+                            '                    <div class="box-header">\n' +
+                            '                        <label for="'+keyWord+'">关键字：</label><input id="'+keyWord+'" style="line-height: 24px; width:70%;border: 1px solid #bbb;padding: 0 4px;" maxlength="50" >' +
+                            '                    </div>\n' +
+                            '                    <div class="pull-right"><a id="'+unFold+'" href="javascript:void(0)"  class="btn btn-box-tool">展开</a>/<a id="'+fold+'" href="javascript:void(0)" class="btn btn-box-tool">折叠</a></div>\n' +
+                            '                    <div>\n' +
+                            '                        <ul id="tree" class="ztree"></ul>\n' +
+                            '                    </div>\n' +
+                            '                </div>');
+                        $.post(options.url,function(data) {
+                            let defaultOpts = {
+                                expandLevel:0,
+                                data: {
+                                    simpleData: {
+                                        enable: true
+                                    }
+                                },
+                                callback: {
+                                }
+
+                            };
+                            $.extend(defaultOpts,options.setting);
+                            tool.tree = $.fn.zTree.init($('#tree'),defaultOpts,data);
+                            function open() {
+                                let width = '300px';
+                                let height = '450px';
+                                //如果是移动端，就使用自适应大小弹窗
+                                if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
+                                    width = 'auto';
+                                    height = 'auto';
+                                }
+                                layer.open({
+                                    type:1,
+                                    title:options.title,
+                                    offset: '50px',
+                                    content: $('#'+treeForm),
+                                    area: [width, height],
+                                    shade:0.3,
+                                    shadeClose:false,
+                                    yes:tool.confirm,
+                                    btn:['确定','取消'],
+                                    cancel:function(index) {
+                                        return true;
+                                    }
+                                })
                             }
-                        })
-                    }
-                    $id.bind('click',open);
+                            $id.bind('click',open);
 
-                })
+                        })
+                        $('#'+fold).bind('click',tool.fold);
+                        $('#'+unFold).bind('click',tool.unFold);
+                        $('#'+keyWord).bind('keyup',tool.search);
+                    }
+                }
+                tool.doInit();
             }
         }
     });
 })(jQuery)
-function mrgValid(outer_id,inner_id,fields) {
+function mrgValid(formId,fields) {
     var valid_obj = this;
-    if($.WebFn.isNull(outer_id)) {
-        console.log("outer_id不能为空");
-        return;
-    }
-    if($.WebFn.isNull(inner_id)) {
-        console.log("inner_id不能为空");
+    if($.WebFn.isNull(formId)) {
+        console.log("formId不能为空");
         return;
     }
     if($.WebFn.isNull(fields)) {
         console.log("验证字段不能为空");
         return;
     }
-    var $form = $.WebFn.getJQuery(outer_id,inner_id);
+    var $form = $('#' + formId);
     $form.bootstrapValidator({
-        message: 'This value is not valid',
+        message: '验证失败',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
             validating: 'glyphicon glyphicon-refresh'
         },
         fields:fields
-    });
+    }).find('input[type="checkbox"], input[type="radio"]').iCheck({
+        checkboxClass: 'icheckbox-blue',
+        radioClass: 'iradio-blue'
+    })
+        // Called when the radios/checkboxes are changed
+        .on('ifChanged', function(e) {
+            // Get the field name
+            var field = $(this).attr('name');
+            $form.bootstrapValidator('revalidateField', field);
+        });
     valid_obj.validator = $form.data('bootstrapValidator');
+    return valid_obj;
 
 
 

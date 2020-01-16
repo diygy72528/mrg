@@ -9,6 +9,7 @@ import com.guyao.mrg.mvc.security.LoginUserDetails;
 import com.guyao.mrg.mvc.user.entity.User;
 import com.guyao.mrg.mvc.user.service.IUserService;
 import com.guyao.mrg.mvc.utils.SecurityUtils;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,10 +26,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredEvent;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +59,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationFailureHandler failureHandler;
+
+    @Autowired
+    private SessionInformationExpiredStrategy expiredStrategy;
 
     @Autowired
     private IUserService userService;
@@ -77,10 +90,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe();
         http.sessionManagement()
-                //.invalidSessionUrl("/login?msg=invalid")//首次访问网站无session时触发,此处设置会导致expiredUrl配置失效，因此取消
+                .invalidSessionUrl("/login?msg=invalid")//首次访问网站无session时触发,此处设置会导致expiredUrl配置失效
                 .sessionFixation().migrateSession()
                 .maximumSessions(1).maxSessionsPreventsLogin(false).sessionRegistry(sessionRegistry())
-                .expiredUrl("/login?msg=expired");//session过期（expired）触发(ConcurrentSessionFilter控制，例如：被人挤下来)
+                .expiredSessionStrategy(expiredStrategy);//session过期（expired）触发(ConcurrentSessionFilter控制，例如：被人挤下来)
     }
 
     @Override
@@ -91,6 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String[] antMatchers() {
         return new String[]{"/static/**","/webjars/**","/kaptcha","/publicKey","/favicon.ico","/login"};
     }
+
 
     @Bean
     public SessionRegistry sessionRegistry() {

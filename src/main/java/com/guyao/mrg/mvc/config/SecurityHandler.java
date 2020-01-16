@@ -11,12 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.security.web.session.SessionInformationExpiredEvent;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -43,7 +49,19 @@ public class SecurityHandler {
             log.info("----------------------------------------------------------");
             log.info("未登录,或登录过期");
             log.info("----------------------------------------------------------");
-            response.sendRedirect("/login?msg=invalid");
+            response.sendRedirect("/login");
+        };
+    }
+
+    @Bean
+    public SessionInformationExpiredStrategy sessionInformationExpiredStrategy() {
+        return new SessionInformationExpiredStrategy() {
+            private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+            @Override
+            public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
+                event.getRequest().getSession();
+                redirectStrategy.sendRedirect(event.getRequest(),event.getResponse(),"/login?msg=expired");
+            }
         };
     }
 

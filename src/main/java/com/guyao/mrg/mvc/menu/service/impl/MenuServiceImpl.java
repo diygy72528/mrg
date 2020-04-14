@@ -1,21 +1,20 @@
 package com.guyao.mrg.mvc.menu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.guyao.mrg.base.ZTree;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.guyao.mrg.common.base.ZTree;
+import com.guyao.mrg.common.exception.WarnException;
+import com.guyao.mrg.common.utils.TreeDataUtils;
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import com.guyao.mrg.mvc.menu.mapper.MenuMapper;
 import com.guyao.mrg.mvc.menu.service.IMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.guyao.mrg.mvc.security.LoginUserDetails;
-import com.guyao.mrg.mvc.utils.SecurityUtils;
+import com.guyao.mrg.common.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +27,7 @@ import java.util.stream.Collectors;
  * @since 2019-10-08
  */
 @Service
+@Transactional
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
 
     private static final int BUTTONMENU = 1;
@@ -57,21 +57,38 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         eqs.put("is_delete","0");
         wrapper.allEq(eqs);
         List<Menu> menus = baseMapper.selectList(wrapper);
-        return initTreeData(menus);
+        return TreeDataUtils.initTreeData(menus);
     }
 
-    private List<ZTree> initTreeData(List<Menu> menus) {
-        ArrayList<ZTree> zTrees = new ArrayList<>();
-        for (Menu menu : menus) {
-            ZTree zTree = new ZTree();
-            zTree.setId(menu.getId());
-            zTree.setName(menu.getName());
-            zTree.setTitle(menu.getName());
-            zTree.setPId(menu.getParentId());
-            zTrees.add(zTree);
-        }
-        return zTrees;
+    @Override
+    public List<Menu> selectMenuList(Menu menu) {
+        return baseMapper.selectList(new QueryWrapper<>(menu));
     }
+
+    @Override
+    public int delete(String id) {
+        if(selectCountByParentId(id) > 0) {
+            throw new WarnException("存在子菜单，不允许删除！");
+        }
+        if(selectRoleCountById(id) > 0){
+            throw new WarnException("菜单已经分配，不允许删除！");
+        }
+        return baseMapper.deleteById(id);
+    }
+
+    @Override
+    public int selectCountByParentId(String id) {
+        return baseMapper.selectCountByParentId(id);
+    }
+
+
+    @Override
+    public int selectRoleCountById(String id) {
+        return baseMapper.selectRoleCountById(id);
+    }
+
+
+
 
     private void reLoadMenus(List<Menu> parents,List<Menu> menus) {
         for (Menu parent: parents ) {

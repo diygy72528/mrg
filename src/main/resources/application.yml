@@ -22,6 +22,7 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       db-type: mysql
+      logic-delete-field: isDelete
     banner: true
   configuration:
     map-underscore-to-camel-case: true

@@ -1,11 +1,10 @@
 package com.guyao.mrg;
 
-import com.guyao.mrg.mvc.utils.RSAUtils;
+import com.guyao.mrg.common.utils.RSAUtils;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.KeyPair;
-import java.security.PrivateKey;
 import java.util.UUID;
 
 public class MrgApplicationTests {
@@ -14,6 +13,7 @@ public class MrgApplicationTests {
     public void contextLoads() {
         UUID uuid = UUID.randomUUID();
         System.out.println(uuid.toString().replace("-",""));
+        System.out.println("$123".substring(1,2));
     }
 
 
@@ -38,6 +38,10 @@ public class MrgApplicationTests {
         System.out.println("解密后的字符串："+decodeStr);
 
 
+    }
+
+    @Test
+    public void testSqlCombine() {
     }
 
 }

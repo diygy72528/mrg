@@ -1,4 +1,4 @@
-package com.guyao.mrg.result;
+package com.guyao.mrg.common.result;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,11 +1,11 @@
 package com.guyao.mrg.mvc.manage.service.impl;
 
 import com.google.code.kaptcha.Producer;
-import com.guyao.mrg.base.MrGConstant;
+import com.guyao.mrg.common.base.MrGConstant;
 import com.guyao.mrg.mvc.manage.entity.Kaptcha;
 import com.guyao.mrg.mvc.manage.service.AdminControllerService;
-import com.guyao.mrg.mvc.utils.ImageUtils;
-import com.guyao.mrg.mvc.utils.RSAUtils;
+import com.guyao.mrg.common.utils.ImageUtils;
+import com.guyao.mrg.common.utils.RSAUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
 import java.security.KeyPair;
-import java.time.LocalDateTime;
 
 /**
  * @author guyao

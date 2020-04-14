@@ -1,4 +1,4 @@
-package com.guyao.mrg.base;
+package com.guyao.mrg.common.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;

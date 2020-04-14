@@ -1,8 +1,6 @@
-package com.guyao.mrg.mvc.utils;
+package com.guyao.mrg.common.utils;
 
-import com.guyao.mrg.base.MrG;
-import com.guyao.mrg.base.MrGDefault;
-import javafx.application.Application;
+import com.guyao.mrg.common.base.MrGDefault;
 import org.springframework.boot.SpringApplication;
 
 import java.util.HashMap;

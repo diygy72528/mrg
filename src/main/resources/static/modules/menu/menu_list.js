@@ -4,14 +4,16 @@ $(function() {
         addUrl:contextPath+"menu/form/{id}",
         editUrl:contextPath+"menu/form/{id}",
         saveOrUpdateUrl: contextPath + "menu/saveOrUpdate",
-        deleteUrl:contextPath+"menu/delete/{id}",
+        deleteUrl:contextPath+"menu/delete",
         modalName:"菜单",
         table:{
+            singleSelect:true,
             toolbar:'#toolbar',
             url: contextPath+"menu/list",
             customParams:{
                 isDelete:0
             },
+            pagination:false,
             clickToSelect:false,
             idField: 'id',
             treeShowField: 'name',
@@ -67,7 +69,7 @@ $(function() {
             "    <span class=\"caret\"></span>\n" +
             "  </button>\n" +
             "  <ul class=\"dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n" +
-            "    <li><a href=\"#\">修改</a></li>\n" +
+            "    <li><a href=\"#\" onclick='$.operate.editTab(\""+row.id+"\")'>修改</a></li>\n" +
             "    <li><a href=\"#\">删除</a></li>\n" +
             "    <li><a href=\"#\">新增子节点</a></li>\n" +
             "  </ul>\n" +

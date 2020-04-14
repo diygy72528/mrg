@@ -12,7 +12,7 @@
                         <label class="col-sm-3 control-label ">上级菜单：</label>
                         <div class="col-sm-8">
                             <div class="input-group" style="width: 100%">
-                                <input class="form-control"  type="text" id="treeName" readonly="readonly" th:value="${parentId == null ? '主目录' : parentId}">
+                                <input class="form-control"  type="text" id="treeName" readonly="readonly" th:value="*{parentId == null ? '主目录' : parentId}">
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
                         </div>

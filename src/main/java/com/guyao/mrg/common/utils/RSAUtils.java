@@ -1,4 +1,4 @@
-package com.guyao.mrg.mvc.utils;
+package com.guyao.mrg.common.utils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

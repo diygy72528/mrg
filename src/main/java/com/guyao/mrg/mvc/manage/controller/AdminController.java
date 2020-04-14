@@ -1,23 +1,16 @@
 package com.guyao.mrg.mvc.manage.controller;
 
-import com.guyao.mrg.base.BaseController;
-import com.guyao.mrg.base.MrG;
-import com.guyao.mrg.mvc.manage.entity.Kaptcha;
+import com.guyao.mrg.common.base.BaseController;
 import com.guyao.mrg.mvc.manage.service.AdminControllerService;
 import com.guyao.mrg.mvc.menu.service.IMenuService;
-import com.guyao.mrg.result.AjaxResult;
+import com.guyao.mrg.common.result.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.ServletWebRequest;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

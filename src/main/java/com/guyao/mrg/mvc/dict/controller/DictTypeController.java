@@ -3,10 +3,10 @@ package com.guyao.mrg.mvc.dict.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.guyao.mrg.base.BaseController;
+import com.guyao.mrg.common.base.BaseController;
 import com.guyao.mrg.mvc.dict.entity.DictType;
 import com.guyao.mrg.mvc.dict.service.IDictTypeService;
-import com.guyao.mrg.result.PageResult;
+import com.guyao.mrg.common.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

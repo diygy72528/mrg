@@ -1,14 +1,22 @@
-package com.guyao.mrg.mvc.exception.handler;
+package com.guyao.mrg.common.exception.handler;
 
-import com.guyao.mrg.result.AjaxResult;
+import com.guyao.mrg.common.exception.WarnException;
+import com.guyao.mrg.common.result.AjaxResult;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * 全局异常处理器
@@ -17,6 +25,10 @@ import java.util.Arrays;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @Autowired
+    private MessageSource messageSource;
+
 
     /**
      * URL
@@ -37,13 +49,16 @@ public class GlobalExceptionHandler {
 
     private static final String INTERNALEXCEPTION_PAGE = "templates/home/error/500";
 
+    /**
+     * 通用异常处理
+     * @param request
+     * @param e
+     * @return
+     */
     @ExceptionHandler(Exception.class)
     public Object defaultExceptionHandler(HttpServletRequest request, Exception e) {
         if(isAjaxRequest(request)) {
-            return AjaxResult.builder()
-                    .msg(StringUtils.isEmpty(e.getMessage())? Arrays.toString(e.getStackTrace()):e.getMessage())
-                    .status(AjaxResult.EXCEPTION_STATUS)
-                    .build();
+            return AjaxResult.exception(StringUtils.isEmpty(e.getMessage())? Arrays.toString(e.getStackTrace()):e.getMessage());
         }else {
             return getModel(e,request);
         }
@@ -52,14 +67,37 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public Object accessDenied(HttpServletRequest request,Exception accessDenied) {
         if(isAjaxRequest(request)) {
-            return AjaxResult.builder()
-                    .msg(StringUtils.isEmpty(accessDenied.getMessage())? Arrays.toString(accessDenied.getStackTrace()):accessDenied.getMessage())
-                    .status(AjaxResult.ACCESS_DENIED)
-                    .build();
+            return AjaxResult.exception(StringUtils.isEmpty(accessDenied.getMessage())? Arrays.toString(accessDenied.getStackTrace()):accessDenied.getMessage());
         }else {
             return getModel(accessDenied,request);
         }
 
+    }
+
+    /**
+     * 参数绑定异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(BindException.class)
+    public Object bindException(BindException e) {
+        StringBuilder sb = new StringBuilder();
+        Locale locale = LocaleContextHolder.getLocale();
+        BindingResult result = e.getBindingResult();
+        for (FieldError error : result.getFieldErrors()) {
+            sb.append(error.getField()).append(":").append(messageSource.getMessage(error,locale)).append(";");
+        }
+        return AjaxResult.exception(sb.toString());
+    }
+
+    /**
+     * 非法操作
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(WarnException.class)
+    public AjaxResult warnException(WarnException e) {
+        return AjaxResult.warn(e.getMessage());
     }
 
     private boolean isAjaxRequest(HttpServletRequest request) {

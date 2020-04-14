@@ -1,4 +1,4 @@
-package com.guyao.mrg.mvc.utils;
+package com.guyao.mrg.common.utils;
 
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import com.guyao.mrg.mvc.security.LoginUserDetails;

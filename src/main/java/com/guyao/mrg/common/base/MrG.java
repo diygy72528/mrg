@@ -1,9 +1,9 @@
-package com.guyao.mrg.base;
+package com.guyao.mrg.common.base;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import static com.guyao.mrg.base.MrG.LOGO;
+import static com.guyao.mrg.common.base.MrG.LOGO;
 
 /**
  * @author guyao

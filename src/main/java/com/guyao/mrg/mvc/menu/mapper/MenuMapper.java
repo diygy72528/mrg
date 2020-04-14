@@ -16,4 +16,7 @@ import java.util.List;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
     List<Menu> findByRoleId(@Param("roleId") String roleId);
+    int selectCountByParentId(@Param("id") String id);
+
+    int selectRoleCountById(@Param("id") String id);
 }

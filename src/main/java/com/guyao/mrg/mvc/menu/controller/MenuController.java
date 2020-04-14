@@ -1,28 +1,19 @@
 package com.guyao.mrg.mvc.menu.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.guyao.mrg.base.BaseController;
-import com.guyao.mrg.base.ZTree;
+import com.guyao.mrg.common.base.BaseController;
+import com.guyao.mrg.common.base.ZTree;
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import com.guyao.mrg.mvc.menu.service.IMenuService;
-import com.guyao.mrg.result.AjaxResult;
-import com.guyao.mrg.result.PageResult;
+import com.guyao.mrg.common.result.AjaxResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * <p>
@@ -37,9 +28,6 @@ import java.util.Locale;
 public class MenuController extends BaseController {
 
     @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
     private IMenuService menuService;
 
     private final String PREFIX = "modules/menu/";
@@ -52,21 +40,13 @@ public class MenuController extends BaseController {
 
     @PostMapping("list")
     @ResponseBody
-    public PageResult menuList(Page page) {
-        IPage pages = menuService.page(page);
-        return PageResult.builder().total(pages.getTotal()).rows(pages.getRecords()).build();
+    public List<Menu> menuList(Menu menu) {
+        return menuService.selectMenuList(menu);
     }
 
-    @GetMapping("form/{id}")
-    public String form(@PathVariable("id") String id, Model model) {
-        Menu menu = null;
-        if(StringUtils.isNotEmpty(id)) {
-            menu = menuService.getById(id);
-        }
-        if(menu == null) {
-            menu = new Menu();
-        }
-        model.addAttribute("menu",menu);
+    @GetMapping(value = {"form/{id}","form"})
+    public String form(@PathVariable(name = "id",required = false)String id, Model model) {
+        model.addAttribute("menu", StringUtils.isNotEmpty(id)?menuService.getById(id):new Menu());
         return PREFIX + "menu_form";
     }
 
@@ -85,17 +65,14 @@ public class MenuController extends BaseController {
 
     @PostMapping("saveOrUpdate")
     @ResponseBody
-    public AjaxResult saveOrUpdate(@Valid Menu menu, BindingResult result) {
-        if(result.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            Locale locale = LocaleContextHolder.getLocale();
-            for (FieldError error : result.getFieldErrors()) {
-                sb.append(error.getField()).append(":").append(messageSource.getMessage(error,locale)).append(";");
-            }
-            return AjaxResult.builder().msg(AjaxResult.ACTION_FAILED_MSG+sb.toString()).status(AjaxResult.FAILED_STATUS).build();
-        }
-        menuService.saveOrUpdate(menu);
-        return AjaxResult.builder().msg(AjaxResult.ACTION_SUCCESSED_MSG).status(AjaxResult.SUCCESS_STATUS).build();
+    public AjaxResult saveOrUpdate(@Valid Menu menu) {
+        return AjaxResult.ok(menuService.saveOrUpdate(menu));
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public AjaxResult delete(@RequestParam("id") String id) {
+        return AjaxResult.ok(menuService.delete(id));
     }
 
 }

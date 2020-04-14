@@ -1,7 +1,9 @@
 package com.guyao.mrg;
 
-import com.guyao.mrg.mvc.config.RedisConfig;
+import com.alibaba.fastjson.JSON;
+import com.guyao.mrg.config.RedisConfig;
 import com.guyao.mrg.mvc.dict.entity.DictData;
+import com.guyao.mrg.mvc.menu.entity.Menu;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +14,17 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
  * @author guyao
  * @date 2019/11/15 3:41 下午
  */
-/*@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = RedisConfig.class)*/
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = RedisConfig.class)
 public class RedisTest {
-    /*@Autowired
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -45,13 +48,20 @@ public class RedisTest {
     @Test
     public void test3() {
         HashOperations<String, Object, Object> hash = stringRedisTemplate.opsForHash();
-        hash.put("dict","性别","男上加男");
+        //hash.put("dict","性别","男上加男");
+        Menu menu = new Menu();
+        menu.setName("张三");
+        menu.setId("adfsafd");
+        menu.setCreateTime(LocalDateTime.now());
+        hash.put("dict","对象1", JSON.toJSONString(menu));
     }
 
     @Test
     public void test4() {
         HashOperations<String, Object, Object> hash = stringRedisTemplate.opsForHash();
-        Object o = hash.get("dict", "性别");
+        Object o = hash.get("dict", "对象1");
+        Menu menu = JSON.parseObject(o.toString(), Menu.class);
+
         System.out.println(o);
     }
 
@@ -85,6 +95,6 @@ public class RedisTest {
         System.out.println(o);
         Map hash1 = ops.entries("hash");
         System.out.println(hash1);
-    }*/
+    }
 
 }

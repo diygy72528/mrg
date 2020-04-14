@@ -1,17 +1,15 @@
 package com.guyao.mrg.mvc.menu.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import java.util.List;
-
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.guyao.mrg.common.base.TreeEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -24,31 +22,15 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Menu implements Serializable {
+public class Menu extends TreeEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * id
-     */
-    private String id;
-
-    /**
-     * 菜单名
-     */
-    @NotEmpty
-    private String name;
 
     /**
      * 菜单类型
      */
     @NotNull
     private Integer type;
-
-    /**
-     * 父id
-     */
-    private String parentId;
 
     /**
      * 删除标记

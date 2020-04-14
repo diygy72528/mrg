@@ -1,7 +1,7 @@
 package com.guyao.mrg.mvc.security;
 
-import com.guyao.mrg.base.MrGConstant;
-import com.guyao.mrg.mvc.utils.RSAUtils;
+import com.guyao.mrg.common.base.MrGConstant;
+import com.guyao.mrg.common.utils.RSAUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,7 +17,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.PrivateKey;
-import java.util.Base64;
 
 /**
  * @author guyao

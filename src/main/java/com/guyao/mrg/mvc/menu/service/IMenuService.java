@@ -1,8 +1,8 @@
 package com.guyao.mrg.mvc.menu.service;
 
-import com.guyao.mrg.base.ZTree;
-import com.guyao.mrg.mvc.menu.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.guyao.mrg.common.base.ZTree;
+import com.guyao.mrg.mvc.menu.entity.Menu;
 
 import java.util.List;
 
@@ -21,4 +21,11 @@ public interface IMenuService extends IService<Menu> {
 
     List<ZTree> getTreeMenu();
 
+    List<Menu> selectMenuList(Menu menu);
+
+    int delete(String id);
+
+    int selectCountByParentId(String id);
+
+    int selectRoleCountById(String id);
 }

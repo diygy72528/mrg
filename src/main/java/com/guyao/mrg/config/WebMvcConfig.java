@@ -1,4 +1,4 @@
-package com.guyao.mrg.mvc.config;
+package com.guyao.mrg.config;
 
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;

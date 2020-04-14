@@ -1,10 +1,8 @@
-package com.guyao.mrg.mvc.config;
+package com.guyao.mrg.config;
 
-import com.guyao.mrg.base.MrG;
-import com.guyao.mrg.base.MrGConstant;
+import com.guyao.mrg.common.base.MrGConstant;
 import com.guyao.mrg.mvc.user.service.IUserService;
-import com.guyao.mrg.mvc.user.service.impl.UserServiceImpl;
-import com.guyao.mrg.result.AjaxResult;
+import com.guyao.mrg.common.result.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -32,6 +33,7 @@ import java.io.PrintWriter;
 @Configuration
 @Slf4j
 public class SecurityHandler {
+
 
 
     @Autowired
@@ -53,7 +55,7 @@ public class SecurityHandler {
         };
     }
 
-    @Bean
+    //未配置
     public SessionInformationExpiredStrategy sessionInformationExpiredStrategy() {
         return new SessionInformationExpiredStrategy() {
             private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -63,6 +65,34 @@ public class SecurityHandler {
                 redirectStrategy.sendRedirect(event.getRequest(),event.getResponse(),"/login?msg=expired");
             }
         };
+    }
+
+
+    /**
+     * 不拦截logout和login?msg=expired
+     * @return
+     */
+    @Bean
+    public InvalidSessionStrategy invalidSessionStrategy() {
+        return new InvalidSessionStrategy() {
+            private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+            @Override
+            public void onInvalidSessionDetected(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+                req.getSession();
+                String queryString = req.getQueryString();
+                String requestURI = req.getRequestURI();
+                if(SecurityConfig.LOGINURL.equals(requestURI)) {
+                    if("msg=expired".equals(queryString)) {
+                        redirectStrategy.sendRedirect(req, res, SecurityConfig.EXPIREDURL);
+                    }else {
+                        redirectStrategy.sendRedirect(req, res, SecurityConfig.LOGINURL);
+                    }
+                    return;
+                }
+                redirectStrategy.sendRedirect(req, res, SecurityConfig.INVALIDURL);
+            }
+        };
+
     }
 
 
@@ -92,6 +122,10 @@ public class SecurityHandler {
     }
 
 
+    /**
+     * 登陆失败返回
+     * @return
+     */
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return (request,response,exception) -> {

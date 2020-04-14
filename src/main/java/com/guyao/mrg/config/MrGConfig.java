@@ -1,6 +1,6 @@
-package com.guyao.mrg.mvc.config;
+package com.guyao.mrg.config;
 
-import com.guyao.mrg.base.MrG;
+import com.guyao.mrg.common.base.MrG;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

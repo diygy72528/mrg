@@ -10,11 +10,6 @@
                 <div class="ibox-title dashboard-header gray-bg">
                     <h5>菜单列表</h5>
                     <div id="toolbar" class="pull-right">
-                        <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:query')">/*/-->
-                        <a class="btn btn-sm ibtn-primary query-a single" title="查询" data-toggle="tooltip"
-                                data-placement="left">
-                            <i class="fa fa-filter"></i> 查看
-                        </a>
                         <!--/*/</th:block>/*/-->
                         <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:add')">/*/-->
                         <a type="button" class="btn btn-sm ibtn-info" data-toggle="tooltip" data-placement="left"
@@ -31,7 +26,7 @@
                         <!--/*/</th:block>/*/-->
                         <!--/*/<th:block sec:authorize="hasAuthority('admin:menu:del')">/*/-->
                         <a class="btn btn-sm bg-maroon multiple" data-toggle="tooltip" data-placement="left" title="删除"
-                                onclick="$.operate.batRemove()"><i
+                                onclick="$.operate.remove()"><i
                                 class="fa fa-trash-o"></i> 删除
                         </a>
                         <!--/*/</th:block>/*/-->

@@ -1,4 +1,4 @@
-package com.guyao.mrg.mvc.utils;
+package com.guyao.mrg.common.utils;
 
 import com.guyao.mrg.mvc.manage.entity.Kaptcha;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package com.guyao.mrg.base;
+package com.guyao.mrg.common.base;
 
 /**
  * @author guyao

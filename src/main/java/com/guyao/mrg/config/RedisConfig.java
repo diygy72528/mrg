@@ -1,4 +1,4 @@
-package com.guyao.mrg.mvc.config;
+package com.guyao.mrg.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

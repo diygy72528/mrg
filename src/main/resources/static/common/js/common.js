@@ -1,13 +1,56 @@
+//弹窗icon状态
+var modal_status = {
+    ask: 'ask',
+    warining: 'warning',
+    success: 'success',
+    failed: 'failed'
+}
+
+var Response_Status = {
+    success:'0',
+    fail:'1',
+    exception:'2',
+    accessdenied:'3',
+    warn:'6'
+
+};
+
 (function($) {
     $.extend({
         table:{
             refresh:function() {
                 $('#table').bootstrapTable('refresh',{silent:true});
             },
-            getSelections: function() {
+            getSelection: function() {
+                var selection = $('#table').bootstrapTable('getSelections');
+                if(selection.length == 1) {
+                    return selection[0].id;
+                }
+                return null;
+            },
+            getSelectedIds: function(column) {
+                var selections = $('#table').bootstrapTable('getSelections'),ids=new Array();
+                $.map(selections,function (r) {
+                    return ids.push(r[column]);
+                })
+                return ids;
             }
         },
         modal:{
+            icon: function(type) {
+                switch(type) {
+                    case 'warning' :
+                        return 0;
+                    case 'success' :
+                        return 1;
+                    case 'failed' :
+                        return 2;
+                    case 'ask':
+                        return 3;
+                    default :
+                        return -1;
+                }
+            },
             open:function(title,url,width,height,callback,cancel) {
                 //如果是移动端，就使用自适应大小弹窗
                 if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
@@ -57,18 +100,20 @@
             },
             alert:function(msg,icon,callback) {
                 layer.alert(msg,{
-                    icon: icon,
+                    icon: $.modal.icon(icon),
                     title: "系统提示",
                     btn:['确认']
 
                 },callback)
             },
-            confirm: function(msg,icon,callback) {
-
-            },
-            warning: function(msg) {
-                layer.open({icon: 2,content:msg});
-
+            confirm: function(msg,callback) {
+                layer.confirm(msg,{
+                    icon: $.modal.icon(modal_status.ask),
+                    title: '提示'
+                },function (index) {
+                    layer.close(index);
+                    callback(true)
+                })
             },
             //打开遮罩层
             loading: function(message) {
@@ -84,6 +129,11 @@
                 setTimeout(function () {
                     App.unblockUI();
                 }, 50);
+            },
+            msg: function(msg,icon) {
+                layer.msg(msg,{
+                    icon:$.modal.icon(icon)
+                })
             }
         },
         operate:{
@@ -94,14 +144,10 @@
                     dataType: dataType,
                     data: data,
                     success: function(result) {
-                        if(!$.WebFn.isNull(result) && result.status == 0) {
-                            if((typeof callback) == 'function') {
-                                callback(result);
-                            }
-                            $.operate.ajaxSuccess(result.msg);
-                        }else {
-                            $.operate.ajaxFailed(!$.WebFn.isNull(result) && !$.WebFn.isNull(result.msg) ? result.msg : "操作失败！");
+                        if((typeof callback) == 'function' && result.status == Response_Status.success) {
+                            callback(result);
                         }
+                        $.operate.ajaxSuccess(result);
                     },
                     beforeSend: function() {
                         $.modal.loading('处理中，请稍后...');
@@ -118,23 +164,65 @@
             edit:function(id) {
 
             },
+            editTab: function(id) {
+                var tab_id = "_tab" + Math.random().toString(36).substring(2);
+                if($.WebFn.isNull(id)) {
+                    id = $.table.getSelection();
+                    if(id == null) {
+                        $.modal.alert('请勾选单个选项',modal_status.warining);
+                        return;
+                    }
+                }
+                var url = $.table.options.editUrl.replace('{id}',id);
+                addTab({id:tab_id,title:'修改' + $.table.options.modalName,close:true,url:url,list_id: window.frameElement.getAttribute('id').substring(7, window.frameElement.getAttribute('id').length)})
+            },
             add:function(id) {
-                let url = $.table.options.addUrl.replace('{id}',id);
+                var url = $.table.options.addUrl.replace('{id}',id);
                 $.modal.open("新增"+$.table.options.modalName,url);
             },
             addTab: function(id) {
-                let tab_id = "_tab" + Math.random().toString(36).substring(2);
-                let url = $.table.options.addUrl.replace('{id}',id);
+                var tab_id = "_tab" + Math.random().toString(36).substring(2);
+                var url = $.WebFn.isNull(id)?$.table.options.addUrl.replace('{id}',''):$.table.options.addUrl.replace('{id}',id);
                 addTab({id:tab_id,title:'新增' + $.table.options.modalName,close:true,url:url,list_id: window.frameElement.getAttribute('id').substring(7, window.frameElement.getAttribute('id').length)})
             },
-            editTab: function() {
+            remove: function() {
+                var id = $.table.getSelection();
+                if(id) {
+                    $.modal.confirm("确定删除选中的1条数据吗？",function() {
+                        var data = {id:id};
+                        $.operate.post($.table.options.deleteUrl,data,function (result) {
+                            //刷新当前页面
+                            parent.refreshTable();
+                        })
+                    })
+                }else {
+                    $.modal.alert("请选择一条记录",modal_status.warining);
+                }
             },
-            ajaxSuccess: function(msg) {
-                $.modal.alert(msg,1);
-                $.modal.closeLoading();
+            batRemove: function() {
+                var ids = $.table.getSelectedIds('id');
+                if(ids.length == 0) {
+                    $.modal.alert("请至少选择一条记录",modal_status.warining);
+                    return;
+                }
+                $.modal.confirm("确定删除选中的"+ids.length+"条数据吗？",function(index) {
+                    var data = {ids:ids.join(",")};
+                    $.operate.post($.table.options.deleteUrl,data,function (result) {
+                        //刷新当前页面
+                        parent.refreshTable();
+                    })
+                });
+
             },
-            ajaxFailed: function(msg) {
-                $.modal.warning(msg);
+            ajaxSuccess: function(result) {
+                if(result.status == Response_Status.success) {
+                    $.modal.msg(result.msg,modal_status.success);
+                }else if((result.status == Response_Status.fail)||(result.status == Response_Status.exception)) {
+                    $.modal.alert(result.msg,modal_status.failed);
+                }else if(result.status == Response_Status.warn) {
+                    $.modal.alert(result.msg,modal_status.warining)
+                }
+
                 $.modal.closeLoading();
             }
 
@@ -204,15 +292,15 @@
                     console.log('url不能为空');
                     return false;
                 }
-                let treeForm = 'treeForm'+ Math.random().toString(36).substring(2);
-                let keyWord = 'keyWord'+ Math.random().toString(36).substring(2);
-                let fold = 'fold'+ Math.random().toString(36).substring(2);
-                let unFold = 'unFold'+ Math.random().toString(36).substring(2);
-                let $id = $('#'+options.id);
-                let tool = {
+                var treeForm = 'treeForm'+ Math.random().toString(36).substring(2);
+                var keyWord = 'keyWord'+ Math.random().toString(36).substring(2);
+                var fold = 'fold'+ Math.random().toString(36).substring(2);
+                var unFold = 'unFold'+ Math.random().toString(36).substring(2);
+                var $id = $('#'+options.id);
+                var tool = {
                     search: function() {
-                        let nodes = tool.tree.getNodes();
-                        let word = $('#' + keyWord).val();
+                        var nodes = tool.tree.getNodes();
+                        var word = $('#' + keyWord).val();
                         if(word === "") {
                             tool.showNodes(nodes);
                             return;
@@ -222,7 +310,7 @@
                             return;
                         }
                         tool.hideAllNodes(nodes);
-                        let nodesByParamFuzzy = tool.tree.getNodesByParamFuzzy('name',word);
+                        var nodesByParamFuzzy = tool.tree.getNodesByParamFuzzy('name',word);
                         tool.showNodes(nodesByParamFuzzy);
 
                     },
@@ -233,7 +321,7 @@
                         }
                     },
                     confirm:function(index) {
-                        let node = tool.tree.getSelectedNodes();
+                        var node = tool.tree.getSelectedNodes();
                         console.log(node[0].id)
                         console.log(node[0].name)
                         $('#' + options.name).val(node[0].id);
@@ -256,8 +344,8 @@
                         }
                     },
                     showParent: function(node) {
-                        let parentNode;
-                        let treeObj = $.fn.zTree.getZTreeObj("tree");
+                        var parentNode;
+                        var treeObj = $.fn.zTree.getZTreeObj("tree");
                         if((parentNode = node.getParentNode()) != null) {
                             tool.tree.showNode(parentNode);
                             tool.tree.expandNode(parentNode,true,false);
@@ -269,9 +357,17 @@
                             return;
                         }
                         node = tool.tree.transformToArray(node);
-                        for(let i = node.length - 1; i >= 0; i--) {
+                        for(var i = node.length - 1; i >= 0; i--) {
                             tool.tree.showNode(node[i]);
                             tool.tree.expandNode(node[i],true,false);
+                        }
+                    },
+                    echoValueById: function(id) {
+                        var node = tool.tree.getNodeByParam('id',id);
+                        if(node){
+                            tool.tree.selectNode(node);
+                            $('#' + options.name).val(node.id);
+                            $('#' + options.id).val(node.name);
                         }
                     },
                     doInit:function() {
@@ -286,7 +382,7 @@
                             '                    </div>\n' +
                             '                </div>');
                         $.post(options.url,function(data) {
-                            let defaultOpts = {
+                            var defaultOpts = {
                                 expandLevel:0,
                                 data: {
                                     simpleData: {
@@ -300,8 +396,8 @@
                             $.extend(defaultOpts,options.setting);
                             tool.tree = $.fn.zTree.init($('#tree'),defaultOpts,data);
                             function open() {
-                                let width = '300px';
-                                let height = '450px';
+                                var width = '300px';
+                                var height = '450px';
                                 //如果是移动端，就使用自适应大小弹窗
                                 if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
                                     width = 'auto';
@@ -323,7 +419,8 @@
                                 })
                             }
                             $id.bind('click',open);
-
+                            //回显选中的父菜单
+                            tool.echoValueById($('#treeName').val());
                         })
                         $('#'+fold).bind('click',tool.fold);
                         $('#'+unFold).bind('click',tool.unFold);
@@ -331,6 +428,7 @@
                     }
                 }
                 tool.doInit();
+                return tool;
             }
         }
     });
@@ -432,7 +530,7 @@ function mrgTable(options) {
     function initTableButtons() {
         $table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table load-success.bs.table',function() {
             //初始化工具栏按钮
-            let selections = $table.bootstrapTable('getSelections');
+            var selections = $table.bootstrapTable('getSelections');
             //禁用单个选项按钮
             $('.single').toggleClass('disabled',selections.length!=1);
             //禁用多个选项按钮
@@ -443,7 +541,6 @@ function mrgTable(options) {
     return $table;
 
 }
-
 
 
 

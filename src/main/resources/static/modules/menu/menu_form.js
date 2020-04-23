@@ -3,11 +3,11 @@ $(function(){
     //初始化权限输入提示
     $('.ion-help-circled').tooltip();
     //根据选择的不同展示不同的选项
-    var tool = $.tree.init({
+    var tool = $.tree.initSearchTree({
         url:contextPath + 'menu/treeData',
-        id:'treeName',
-        name:'parentId',
-        title:'请选择'
+        id:'parentId',
+        name:'treeName',
+        title:'请选择',
     });
     //初始化校验
     let fields = {
@@ -27,7 +27,7 @@ $(function(){
             }
         }
     };
-    let valid_obj = mrgValid('menuForm',fields);
+    let valid_obj = mrgValid('menuForm',fields,true);
 
     //绑定保存和取消
     $('#save').bind('click',function() {

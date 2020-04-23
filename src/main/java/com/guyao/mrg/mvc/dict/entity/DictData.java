@@ -1,7 +1,6 @@
 package com.guyao.mrg.mvc.dict.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.guyao.mrg.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -19,14 +18,9 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ToString
-public class DictData implements Serializable {
+public class DictData extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键
-     */
-    private String id;
 
     /**
      * 字典名称
@@ -37,26 +31,6 @@ public class DictData implements Serializable {
      * 类型id
      */
     private String dictTypeId;
-
-    /**
-     * 创建人id
-     */
-    private String createrId;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改人id
-     */
-    private String modifierId;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime modifyTime;
 
     /**
      * 字典值状态

@@ -1,5 +1,6 @@
 package com.guyao.mrg.common.result;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,4 +16,8 @@ public class PageResult {
     private long total;
 
     private List rows;
+
+    public static PageResult newResult(IPage page) {
+        return PageResult.builder().total(page.getTotal()).rows(page.getRecords()).build();
+    }
 }

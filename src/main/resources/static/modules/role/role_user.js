@@ -1,13 +1,17 @@
 $(function() {
+    initTable();
+})
+function initTable() {
     var options = {
         //tableid
         id:'table',
         //bootstrap-table options
         table:{
-            url: contextPath+"user/list",
+            toolbar:'#toolbar',
+            url: contextPath+"user/listByRoleId",
             pagination:true,
             customParams:{
-                isDelete:0
+                roleId:$('#roleId').val()
             },
             columns:[{
                 checkbox:true
@@ -44,5 +48,4 @@ $(function() {
         }
     };
     new mrgTable(options);
-
-})
+}

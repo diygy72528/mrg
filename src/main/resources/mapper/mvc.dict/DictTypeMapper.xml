@@ -8,9 +8,9 @@
         dict_type_ch_name,
         dict_type_en_name,
         dict_type_descript,
-        creater_id,
+        creater,
         create_time,
-        modifier_id,
+        modifier,
         modify_time,
         STATUS,
         is_delete

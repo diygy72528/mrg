@@ -13,4 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IRoleService extends IService<Role> {
 
+    boolean saveOrUpdate(Role role, String menuIds);
+
+    String selectMenuIdsByRoleId(String id);
+
+    void addUserRoleRela(String roleId, String userIds);
 }

@@ -24,4 +24,11 @@ public interface UserMapper extends BaseMapper<User> {
 
     IPage<User> page(Page<User> page, User user);
 
+    IPage listByRoleId(Page page, @Param("roleId")String roleId);
+
+    void addUserRoleRela(@Param("id")String id, @Param("userId")String userId, @Param("roleId")String roleId);
+
+    void deleteRelaByRoleId(@Param("roleId") String roleId);
+
+    void deleteRelaByUserId(@Param("userId")String userId);
 }

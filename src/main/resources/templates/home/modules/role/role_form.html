@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<header>
+    <div th:include="fragments/style::header"></div>
+    <div th:include="fragments/style::ztree"></div>
+    <div th:include="fragments/style::bootstrap-switch"></div>
+</header>
+<body class="white-bg">
+<div class="animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="roleForm" th:object="${role}" >
+        <input type="hidden" id="menuIds" th:value="${menuIds}"/>
+        <input name="id"   type="hidden" th:field="*{id}"   />
+        <div class="form-group">
+            <label class="col-sm-3 control-label "><font color="red">*</font>角色名称：</label>
+            <div class="col-sm-8">
+                <div class="input-group" style="width: 100%">
+                    <input class="form-control" placeholder="请输入角色名称"  type="text" name="name" id="name" th:value="*{name}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                角色状态：</label>
+            <div class="col-sm-8">
+                <input type="checkbox" id="status" th:checked="*{status == 1?true:false}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                显示顺序：
+            </label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text"
+                       autocomplete="off"
+                       name="orderNum" th:value="*{orderNum}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                菜单权限：
+            </label>
+            <div class="col-sm-8">
+                <ul id="tree" class="ztree"></ul>
+            </div><div class="col-sm-8">
+                <ul id="tree1" class="ztree"></ul>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<div th:include="fragments/script::script"></div>
+<div th:include="fragments/script::bootstrap-switch"></div>
+<div th:include="fragments/script::ztree"></div>
+<script th:src="@{/static/modules/role/role_form.js}"></script>
+</html>

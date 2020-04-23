@@ -4,17 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.guyao.mrg.common.base.ZTree;
 import com.guyao.mrg.common.exception.WarnException;
+import com.guyao.mrg.common.utils.SecurityUtils;
 import com.guyao.mrg.common.utils.TreeDataUtils;
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import com.guyao.mrg.mvc.menu.mapper.MenuMapper;
 import com.guyao.mrg.mvc.menu.service.IMenuService;
-import com.guyao.mrg.common.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
 
     private static final int BUTTONMENU = 1;
+
 
     @Override
     public List<Menu> findByRoleId(String roleId) {
@@ -53,9 +54,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Override
     public List<ZTree> getTreeMenu() {
         QueryWrapper<Menu> wrapper = new QueryWrapper<>();
-        HashMap<String, Object> eqs = new HashMap<>();
+        /*HashMap<String, Object> eqs = new HashMap<>();
         eqs.put("is_delete","0");
-        wrapper.allEq(eqs);
+        wrapper.allEq(eqs);*/
         List<Menu> menus = baseMapper.selectList(wrapper);
         return TreeDataUtils.initTreeData(menus);
     }
@@ -73,6 +74,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         if(selectRoleCountById(id) > 0){
             throw new WarnException("菜单已经分配，不允许删除！");
         }
+        //Mybatis plus删除时没有更新操作人，操作时间功能，需要手动添加。
+        baseMapper.updateModifierAndModifyTime(id,SecurityUtils.getUserDetails().getUserId(),LocalDateTime.now());
         return baseMapper.deleteById(id);
     }
 

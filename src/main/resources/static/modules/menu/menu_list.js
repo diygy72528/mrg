@@ -6,12 +6,12 @@ $(function() {
         saveOrUpdateUrl: contextPath + "menu/saveOrUpdate",
         deleteUrl:contextPath+"menu/delete",
         modalName:"菜单",
+        treeColumn:1,
         table:{
             singleSelect:true,
             toolbar:'#toolbar',
             url: contextPath+"menu/list",
             customParams:{
-                isDelete:0
             },
             pagination:false,
             clickToSelect:false,
@@ -21,7 +21,7 @@ $(function() {
             showColumns:true,
             initialState: 'collapsed',
             columns:[{
-                checkbox:true
+                radio:true
             },{
                 title:'id',
                 field:'id',
@@ -29,28 +29,38 @@ $(function() {
             },{
                 title:'菜单名',
                 field:'name',
-                order:'asc',
+                width:'20',
+                widthUnit:'%'
             },{
                 title:'类型',
                 field:'type',
-                order:'asc',
-                align:'center'
+                width:'10',
+                align:'center',
+                widthUnit:'%'
             },{
                 title:'图标',
                 field:'icon',
                 formatter:iconFormatter,
-                align:'center'
+                width:'10',
+                align:'center',
+                widthUnit:'%'
             },{
                 title:'url',
                 field:'url',
-                align:'center'
+                width:'20',
+                align:'center',
+                widthUnit:'%'
             },{
                 title:'权限',
+                width:'20',
                 field:'permission',
-                align:'center'
+                align:'center',
+                widthUnit:'%'
             },{
                 title:'操作',
-                width:50,
+                width:'20',
+                widthUnit:'%',
+                align: 'center',
                 formatter:CURDButtons
             }
             ],
@@ -63,17 +73,7 @@ $(function() {
     }
 
     function CURDButtons(value, row, index) {
-        return "<div class=\"dropdown\">\n" +
-            "  <button class=\"btn btn-xs btn-primary dropdown-toggle\" type=\"button\" id=\"dropdownMenu1\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\n" +
-            "    <i class=\"fa fa-cog\"></i>" +
-            "    <span class=\"caret\"></span>\n" +
-            "  </button>\n" +
-            "  <ul class=\"dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n" +
-            "    <li><a href=\"#\" onclick='$.operate.editTab(\""+row.id+"\")'>修改</a></li>\n" +
-            "    <li><a href=\"#\">删除</a></li>\n" +
-            "    <li><a href=\"#\">新增子节点</a></li>\n" +
-            "  </ul>\n" +
-            "</div>";
+        return "";
     }
 
 })

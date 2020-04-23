@@ -2,7 +2,6 @@ package com.guyao.mrg.mvc.security;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.guyao.mrg.mvc.menu.entity.Menu;
-import com.guyao.mrg.mvc.user.entity.User;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +20,8 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 public class LoginUserDetails implements UserDetails {
+
+    private String userId;
 
     private String username;
 

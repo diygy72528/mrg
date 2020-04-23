@@ -10,13 +10,14 @@
     <select id="findByUserId" resultMap="roleMap">
         SELECT
             t.id,
-            t.role_name,
+            t.name,
             t.role_descript,
             t.create_time,
-            t.creater_id,
+            t.creater,
             t.is_delete,
-            t.modifier_id,
-            t.modify_time
+            t.modifier,
+            t.modify_time,
+            t.order_num
         FROM
             role t
             left join user_role ur on t.id = ur.role_id
@@ -24,6 +25,25 @@
             ur.user_id = #{userId}
         and
             t.is_delete = 0
+        order by t.order_num
 
+    </select>
+
+    <update id="updateModifierAndModifyTime">
+        update role r set r.modifier = #{userId},r.modify_time = #{date,jdbcType=DATE} where r.id = #{id}
+    </update>
+
+    <insert id="saveRoleMenuRelation" >
+        insert into role_menu(id,role_id,menu_id) values(
+        #{id},
+        #{roleId},
+        #{menuId}
+        )
+    </insert>
+    <delete id="deleteRoleMenuRelationByRoleId">
+        delete from role_menu where role_id = #{roleId}
+    </delete>
+    <select id="selectMenuIdsByRoleId" resultType="String">
+        select t.menu_id from role_menu t where t.role_id = #{roleId}
     </select>
 </mapper>

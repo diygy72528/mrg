@@ -1,6 +1,7 @@
 package com.guyao.mrg.mvc.security;
 
 import com.guyao.mrg.common.base.MrGConstant;
+import com.guyao.mrg.common.exception.ValidKaptchaException;
 import com.guyao.mrg.mvc.manage.entity.Kaptcha;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;

@@ -1,7 +1,7 @@
 package com.guyao.mrg.mvc.role.mapper;
 
+import com.guyao.mrg.common.base.MyBaseMapper;
 import com.guyao.mrg.mvc.role.entity.Role;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,6 +14,11 @@ import java.util.List;
  * @author guyao
  * @since 2019-07-18
  */
-public interface RoleMapper extends BaseMapper<Role> {
+public interface RoleMapper extends MyBaseMapper<Role> {
     List<Role> findByUserId(@Param("userId") String userid);
+    int saveRoleMenuRelation(@Param("roleId") String roleId,@Param("menuId") String menuId,@Param("id") String id);
+
+    void deleteRoleMenuRelationByRoleId(@Param("roleId") String id);
+
+    List<String> selectMenuIdsByRoleId(@Param("roleId") String id);
 }

@@ -19,36 +19,67 @@
 
 
     <sql id="baseColumns">
-        id,
-        user_name,
-        account,
-        PASSWORD,
-        mobile,
-        email,
-        register_time,
-        last_login_time,
-        login_count,
-        is_delete,
-        remark,
-        user_status
+        ${prefix}.id,
+        ${prefix}.user_name,
+        ${prefix}.account,
+        ${prefix}.PASSWORD,
+        ${prefix}.mobile,
+        ${prefix}.email,
+        ${prefix}.register_time,
+        ${prefix}.last_login_time,
+        ${prefix}.login_count,
+        ${prefix}.is_delete,
+        ${prefix}.remark,
+        ${prefix}.user_status
     </sql>
     <select id="findByUsername" resultMap="userResult">
         SELECT
-        <include refid="baseColumns"/>
+        <include refid="baseColumns">
+            <property name="prefix" value="u"/>
+        </include>
         FROM
-            user
-        where account = #{username}
-        and is_delete = 0
+            user u
+        where u.account = #{username}
+        and u.is_delete = 0
     </select>
 
     <select id="page" parameterType="user" resultType="user">
         select
-        <include refid="baseColumns"/>
+        <include refid="baseColumns">
+            <property name="prefix" value="u"/>
+        </include>
         from
-            user
+            user u
         <where>
-            is_delete = #{user.isDelete}
+            u.is_delete = 0
         </where>
     </select>
+    <select id="listByRoleId" resultType="user">
+        select
+        <include refid="baseColumns">
+            <property name="prefix" value="u"/>
+        </include>
+        from user u right join user_role ur on ur.user_id = u.id
+        <where>
+            ur.role_id = #{roleId}
+            and u.is_delete = 0
+        </where>
+    </select>
+
+    <insert id="addUserRoleRela">
+        insert into user_role(id, user_id, role_id) values (
+        #{id},
+        #{userId},
+        #{roleId}
+        )
+    </insert>
+
+    <delete id="deleteRelaByRoleId">
+        delete from user_role where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteRelaByUserId">
+        delete from user_role where role_id = #{userId}
+    </delete>
 
 </mapper>

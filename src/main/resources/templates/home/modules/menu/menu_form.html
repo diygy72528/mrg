@@ -7,12 +7,12 @@
     <body class="white-bg">
             <div class="animated fadeInRight ibox-content">
                 <form class="form-horizontal m" id="menuForm" th:object="${menu}" >
-                    <input name="menuId"   type="hidden" th:field="*{id}"   />
+                    <input name="id"   type="hidden" th:field="*{id}"   />
                     <div class="form-group">
-                        <label class="col-sm-3 control-label ">上级菜单：</label>
+                        <label for="name" class="col-sm-3 control-label ">上级菜单：</label>
                         <div class="col-sm-8">
                             <div class="input-group" style="width: 100%">
-                                <input class="form-control"  type="text" id="treeName" readonly="readonly" th:value="*{parentId == null ? '主目录' : parentId}">
+                                <input class="form-control"  type="text" id="treeName" readonly="readonly" th:value="*{(parentId == null || parentId == '')? '主目录' : parentId}">
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
                         </div>

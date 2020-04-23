@@ -8,7 +8,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -51,26 +50,6 @@ public class Menu extends TreeEntity implements Serializable {
      * 权限
      */
     private String permission;
-
-    /**
-     * 创建人
-     */
-    private String creater;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改人
-     */
-    private String modifier;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime modifyTime;
 
     /**
      * 子菜单

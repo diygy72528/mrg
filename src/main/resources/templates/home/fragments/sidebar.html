@@ -30,13 +30,13 @@
         <!-- /.search form -->
 
         <!-- Sidebar Menu -->
-        <ul class="sidebar-menu" data-widget="tree">
+        <ul class="nav" data-widget="tree">
             <li class="header">导航栏</li>
             <th:block th:fragment="title(menus)">
                 <th:block th:each="menu : ${menus}">
                     <th:block th:if="${#lists.size(menu.children)>0}">
                         <li class="treeview">
-                            <a href="#">
+                            <a href="#" class="menuItem">
                                 <i th:class="${menu.icon}"></i>
                                 <span th:text="${menu.name}"></span>
                                 <span class="pull-right-container"/>
@@ -45,8 +45,8 @@
                             </ul>
                         </li>
                     </th:block>
-                    <th:block th:unless="${#lists.size(menu.children)}">
-                        <li th:inline="javascript" class="treeview">
+                    <th:block th:unless="${#lists.size(menu.children)>0}">
+                        <li th:inline="javascript">
                             <a href="#" th:data-id="${menu.id}" th:data-name="${menu.name}" th:data-url="${menu.url}"
                                onclick="javascript:void(0); addTabs({id:this.getAttribute('data-id'),title:this.getAttribute('data-name'),close:true,url:this.getAttribute('data-url')});">
                                 <i th:class="${menu.icon}"></i>

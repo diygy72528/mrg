@@ -57,6 +57,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public Object defaultExceptionHandler(HttpServletRequest request, Exception e) {
+        e.printStackTrace();
         if(isAjaxRequest(request)) {
             return AjaxResult.exception(StringUtils.isEmpty(e.getMessage())? Arrays.toString(e.getStackTrace()):e.getMessage());
         }else {

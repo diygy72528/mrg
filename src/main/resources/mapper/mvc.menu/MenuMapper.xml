@@ -22,6 +22,7 @@
     WHERE
         rm.role_id = #{roleId}
         AND m.is_delete = 0
+        order by m.order_num
 </select>
 <select id="selectCountByParentId" parameterType="String" resultType="Integer">
     select count(1) from menu m where m.parent_id = #{id,jdbcType=VARCHAR} and m.is_delete = 0
@@ -31,4 +32,9 @@
 <select id="selectRoleCountById" parameterType="String" resultType="Integer">
     select count(1) from role_menu rm where rm.menu_id = #{id,jdbcType=VARCHAR}
 </select>
+
+<update id="updateModifierAndModifyTime">
+    update menu u set u.modifier = #{userId},u.modify_time = #{date,jdbcType=DATE} where u.id = #{id}
+</update>
+
 </mapper>

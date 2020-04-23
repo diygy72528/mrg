@@ -124,7 +124,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
             log.info("=====用户{}：具有菜单{}=====",user.getUserName(),menus);
             log.info("=====用户{}：具有角色{}=====",user.getUserName(),user.getRoleList());
-            return LoginUserDetails.builder().username(user.getAccount()).password(user.getPassword()).menus(menus).build();
+            return LoginUserDetails.builder().username(user.getAccount()).password(user.getPassword()).menus(menus).userId(user.getId()).build();
         };
     }
 }

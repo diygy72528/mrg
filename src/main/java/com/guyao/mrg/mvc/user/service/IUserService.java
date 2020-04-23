@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.guyao.mrg.mvc.user.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.lang.NonNull;
 
 /**
  * <p>
@@ -20,4 +21,13 @@ public interface IUserService extends IService<User> {
 
     IPage page(Page page, User user);
 
+    IPage listByRoleId(Page page, String roleId);
+
+    void deleteRelaByRoleId(String roleId);
+
+    void deleteRelaByUserId(String userId);
+
+    void addUserRolesRela(String userId, String roleIds);
+
+    void addUsersRoleRela(@NonNull String roleId, String userIds);
 }

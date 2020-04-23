@@ -1,13 +1,13 @@
 package com.guyao.mrg.mvc.role.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import java.util.List;
-
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.guyao.mrg.common.base.TreeEntity;
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,46 +20,28 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Role implements Serializable {
+public class Role extends TreeEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField(exist = false)
     private List<Menu> menuList;
 
     /**
-     * id
+     * 状态
      */
-    private String id;
+    @TableField("`status`")
+    private Integer status;
 
     /**
-     * 角色名称
+     * 排序
      */
-    private String roleName;
+    private Integer orderNum;
 
     /**
      * 角色描述
      */
     private String roleDescript;
-
-    /**
-     * 创建人
-     */
-    private String createrId;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改人
-     */
-    private String modifierId;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime modifyTime;
 
     /**
      * 是否删除

@@ -1,4 +1,4 @@
-package com.guyao.mrg.mvc.security;
+package com.guyao.mrg.common.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

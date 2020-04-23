@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<header>
+    <div th:include="fragments/style::header"></div>
+    <div th:include="fragments/style::bootstrap-table"></div>
+</header>
+<body class="list-body">
+<section class="content">
+    <div class="ibox">
+        <div class="ibox-title dashboard-header gray-bg">
+            <h5>菜单列表</h5>
+            <div id="toolbar" class="pull-right">
+                <!--/*/</th:block>/*/-->
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:role:add')">/*/-->
+                <a type="button" class="btn btn-sm ibtn-info" data-toggle="tooltip" data-placement="left"
+                   title="新增"
+                   onclick="$.operate.add()">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+                <!--/*/</th:block>/*/-->
+
+                <a class="btn btn-sm bg-orange single" title="修改" data-toggle="tooltip" data-placement="left"
+                   onclick="$.operate.edit()">
+                    <i class="fa fa-pencil"></i> 修改
+                </a>
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:role:add')">/*/-->
+                <!--/*/</th:block>/*/-->
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:role:del')">/*/-->
+                <a class="btn btn-sm bg-maroon multiple" data-toggle="tooltip" data-placement="left" title="删除"
+                   onclick="$.operate.remove()"><i
+                        class="fa fa-trash-o"></i> 删除
+                </a>
+                <!--/*/</th:block>/*/-->
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:role:import') || hasAuthority('manage:dict:export')">/*/-->
+                <div class="btn-group">
+                    <button type="button" class="btn ibtn-white btn-sm dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="false" data-placement="left"
+                            title="更多操作">
+                        更多操作<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-role">
+                        <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:import')">/*/-->
+                        <li><a href="javascript:void(0);" onclick="$.operate.exportExcel()"><i
+                                class="glyphicon glyphicon-export"></i> 导出</a></li>
+                        <!--/*/</th:block>/*/-->
+                        <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:export')">/*/-->
+                        <li><a href="javascript:void(0);" onclick="$.operate.importExcel()"><i class="glyphicon glyphicon-import"></i> 导入</a></li>
+                        <!--/*/</th:block>/*/-->
+                    </ul>
+                </div>
+                <!--/*/</th:block>/*/-->
+            </div>
+        </div>
+        <div class="ibox-content-tree-table">
+            <table id="table" class="table table-bordered"></table>
+        </div>
+    </div>
+</section>
+</body>
+<div th:include="fragments/script::script"></div>
+<div th:include="fragments/script::bootstrap-table"></div>
+<script th:src="@{/static/modules/role/role_list.js}"></script>
+</html>

@@ -11,11 +11,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class TreeEntity {
-    /**
-     * id
-     */
-    private String id;
+public class TreeEntity extends BaseEntity {
 
     /**
      * 菜单名

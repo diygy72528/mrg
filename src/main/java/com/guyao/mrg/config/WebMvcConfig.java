@@ -1,27 +1,27 @@
 package com.guyao.mrg.config;
 
-import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.guyao.mrg.mvc.PropertyTest;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -61,7 +61,18 @@ public class WebMvcConfig implements WebMvcConfigurer , ServletContextInitialize
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
         converter.setSupportedMediaTypes(fastMediaTypes);
         converter.setFastJsonConfig(config);
+        //设置字符串转换
+        StringHttpMessageConverter stringConverter=new StringHttpMessageConverter();
+        stringConverter.setSupportedMediaTypes(Arrays.asList(
+                new MediaType("text", "plain", Charset.forName("UTF-8")),
+                new MediaType("text", "json", Charset.forName("UTF-8")),
+                new MediaType("text", "html", Charset.forName("UTF-8")),
+                new MediaType("text", "xml", Charset.forName("UTF-8")),
+                new MediaType("application", "json", Charset.forName("UTF-8"))
+        ));
+//        converters.add(getMappingJackson2HttpMessageConverter());
         converters.add(0,converter);
+        converters.add(0,stringConverter);
     }
 
     @Bean

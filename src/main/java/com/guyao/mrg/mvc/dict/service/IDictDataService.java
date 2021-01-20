@@ -1,7 +1,9 @@
 package com.guyao.mrg.mvc.dict.service;
 
-import com.guyao.mrg.mvc.dict.entity.DictData;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.guyao.mrg.mvc.dict.entity.DictData;
 
 /**
  * <p>
@@ -13,4 +15,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDictDataService extends IService<DictData> {
 
+    Page page(Page page, DictData dictData);
+
+    IPage pageByTypeId(String id, Page page);
+
+    boolean checkUniqueValue(String typeId, String value, String id);
+
+    boolean delete(String ids);
 }

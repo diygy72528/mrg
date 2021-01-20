@@ -69,7 +69,7 @@ public class RoleController extends BaseController {
     }
 
     @GetMapping("roleUserList")
-    public String roleUserList(@RequestParam(value = "id",required = true) String id, Model model) {
+    public String roleUserList(@RequestParam(value = "id") String id, Model model) {
         model.addAttribute("id",id);
         return PREFIX + "role_user_list";
     }
@@ -80,6 +80,12 @@ public class RoleController extends BaseController {
     public AjaxResult addUserRoleRela(@RequestParam("roleId")String roleId, @RequestParam(value = "userIds",required = false)String userIds) {
         roleService.addUserRoleRela(roleId, userIds);
         return AjaxResult.ok();
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public AjaxResult delete(@RequestParam("ids") String ids) {
+        return AjaxResult.ok(roleService.deleteById(ids));
     }
 
 

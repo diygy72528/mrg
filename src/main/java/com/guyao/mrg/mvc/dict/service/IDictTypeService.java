@@ -1,9 +1,10 @@
 package com.guyao.mrg.mvc.dict.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.guyao.mrg.mvc.dict.entity.DictType;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.guyao.mrg.mvc.dict.entity.DictType;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,6 +16,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDictTypeService extends IService<DictType> {
 
-    IPage<DictType> page(Page page, DictType dictType);
+    Page<DictType> page(Page page, DictType dictType);
 
+    boolean checkUniqueName(String dictTypeEnName, String id);
+
+    boolean delete(String ids);
+
+    List<DictType> selectTypeDataCache();
+
+    DictType getTypeByName(String typeName);
+
+    DictType getTypeById(String id);
 }

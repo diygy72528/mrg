@@ -11,37 +11,33 @@
     <div class="ibox">
         <div class="ibox-title dashboard-header gray-bg">
             <h5>字典类型</h5>
-            <div class="pull-right">
-                <button class="btn btn-sm ibtn-primary query-a" title="查询" data-toggle="tooltip"
+            <div id="toolbar" class="pull-right">
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:dict:query')">/*/-->
+                <a class="btn btn-sm ibtn-primary query-a" title="查询" data-toggle="tooltip"
                         data-placement="left">
                     <i class="fa fa-filter"></i> 查询
-                </button>
-                <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:query')">/*/-->
-                <button class="btn btn-sm ibtn-primary query-a" title="查询" data-toggle="tooltip"
-                        data-placement="left">
-                    <i class="fa fa-filter"></i> 查询
-                </button>
+                </a>
                 <!--/*/</th:block>/*/-->
-                <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:add')">/*/-->
-                <button type="button" class="btn btn-sm ibtn-info" data-toggle="tooltip" data-placement="left"
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:dict:add')">/*/-->
+                <a type="button" class="btn btn-sm ibtn-info" data-toggle="tooltip" data-placement="left"
                         title="新增"
                         onclick="$.operate.add()">
                     <i class="fa fa-plus"></i> 新增
-                </button>
+                </a>
                 <!--/*/</th:block>/*/-->
-                <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:edit')">/*/-->
-                <button class="btn btn-sm bg-orange" title="修改" data-toggle="tooltip" data-placement="left"
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:dict:edit')">/*/-->
+                <a class="btn btn-sm bg-orange single" title="修改" data-toggle="tooltip" data-placement="left"
                         onclick="$.operate.edit()">
                     <i class="fa fa-pencil"></i> 修改
-                </button>
+                </a>
                 <!--/*/</th:block>/*/-->
-                <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:del')">/*/-->
-                <button class="btn btn-sm bg-maroon" data-toggle="tooltip" data-placement="left" title="删除"
-                        onclick="$.operate.batRemove()"><i
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:dict:del')">/*/-->
+                <a class="btn btn-sm bg-maroon multiple" data-toggle="tooltip" data-placement="left" title="删除"
+                        onclick="$.operate.remove()"><i
                         class="fa fa-trash-o"></i> 删除
-                </button>
+                </a>
                 <!--/*/</th:block>/*/-->
-                <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:import') || hasAuthority('manage:dict:export')">/*/-->
+                <!--/*/<th:block sec:authorize="hasAuthority('admin:dict:import') || hasAuthority('admin:dict:export')">/*/-->
                 <div class="btn-group">
                     <button type="button" class="btn ibtn-white btn-sm dropdown-toggle" data-toggle="dropdown"
                             aria-expanded="false" data-placement="left"
@@ -49,11 +45,11 @@
                         更多操作<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:import')">/*/-->
+                        <!--/*/<th:block sec:authorize="hasAuthority('admin:dict:import')">/*/-->
                         <li><a href="javascript:void(0);" onclick="$.operate.exportExcel()"><i
                                 class="glyphicon glyphicon-export"></i> 导出</a></li>
                         <!--/*/</th:block>/*/-->
-                        <!--/*/<th:block sec:authorize="hasAuthority('manage:dict:export')">/*/-->
+                        <!--/*/<th:block sec:authorize="hasAuthority('admin:dict:export')">/*/-->
                         <li><a href="javascript:void(0);" onclick="$.operate.importExcel()"><i class="glyphicon glyphicon-import"></i> 导入</a></li>
                         <!--/*/</th:block>/*/-->
                     </ul>

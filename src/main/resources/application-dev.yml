@@ -2,8 +2,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/mrg?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Hongkong
-    #url: jdbc:mysql://guyao.club:3306/mrg?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Hongkong
+    #url: jdbc:mysql://127.0.0.1:3306/mrg?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Hongkong
+    url: jdbc:mysql://47.106.222.209:3306/mrg?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Hongkong
     username: root
     password: root
     hikari:
@@ -15,3 +15,13 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       pool-name: DatebookHikariCP
+  rabbitmq:
+    listener:
+      simple:
+        default-requeue-rejected: false
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+

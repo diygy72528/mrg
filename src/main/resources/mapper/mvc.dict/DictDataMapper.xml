@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guyao.mrg.mvc.dict.mapper.DictDataMapper">
 
+    <sql id="baseColumns">
+        ${prefix}.id,
+        ${prefix}.dict_name,
+        ${prefix}.value,
+        ${prefix}.dict_type_id,
+        ${prefix}.creater,
+        ${prefix}.create_time,
+        ${prefix}.modifier,
+        ${prefix}.modify_time,
+        ${prefix}.STATUS,
+        ${prefix}.is_delete
+    </sql>
+
+
+    <select id="pageByTypeId" resultType="dictData">
+        select
+        <include refid="baseColumns">
+            <property name="prefix" value="t"/>
+        </include>
+        from dict_data t
+        where t.dict_type_id = #{id} and t.is_delete = 0
+    </select>
+
+    <select id="checkUniqueValue" resultType="int">
+        select count(1) from dict_data t
+        <where>
+            t.dict_type_id = #{typeId}
+            and t.value = #{value}
+            and t.is_delete = 0
+            <if test="id != null and id != ''">
+                and t.id != #{id}
+            </if>
+        </where>
+    </select>
+
 </mapper>

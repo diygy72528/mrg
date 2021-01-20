@@ -43,10 +43,5 @@ public class Role extends TreeEntity {
      */
     private String roleDescript;
 
-    /**
-     * 是否删除
-     */
-    private String isDelete;
-
 
 }

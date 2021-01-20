@@ -75,7 +75,7 @@
                         <div class="col-sm-8">
                             <div class="input-group col-sm-12">
                                 <span style="width:50px" class="input-group-addon"><i id="icon-preview" th:class="*{icon}"></i></span>
-                                <input readonly="readonly" autocomplete="off" name="icon" class="form-control" type="text" placeholder="选择图标"/>
+                                <input readonly="readonly" th:value="*{icon}" autocomplete="off" name="icon" class="form-control" type="text" placeholder="选择图标"/>
                             </div>
                             <div class="ms-parent" style="width: 100%;">
                                 <div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto">

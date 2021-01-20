@@ -23,7 +23,7 @@ public interface IMenuService extends IService<Menu> {
 
     List<Menu> selectMenuList(Menu menu);
 
-    int delete(String id);
+    boolean delete(String id);
 
     int selectCountByParentId(String id);
 

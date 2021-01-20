@@ -1,5 +1,6 @@
 package com.guyao.mrg.common.exception.handler;
 
+import com.guyao.mrg.common.exception.BusinessException;
 import com.guyao.mrg.common.exception.WarnException;
 import com.guyao.mrg.common.result.AjaxResult;
 import org.apache.commons.lang3.StringUtils;
@@ -99,6 +100,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WarnException.class)
     public AjaxResult warnException(WarnException e) {
         return AjaxResult.warn(e.getMessage());
+    }
+
+
+    /**
+     * 业务异常
+     * @param request
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(BusinessException.class)
+    public Object businessException(HttpServletRequest request, BusinessException e) {
+        e.printStackTrace();
+        if(isAjaxRequest(request)) {
+            return AjaxResult.exception(e.getMessage());
+        }else {
+            return getModel(e,request);
+        }
     }
 
     private boolean isAjaxRequest(HttpServletRequest request) {

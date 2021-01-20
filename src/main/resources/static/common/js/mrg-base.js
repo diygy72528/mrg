@@ -7,7 +7,6 @@ String.prototype.startWith = function(s) {
         return false;
     return true;
 }
-//todo 完成异常
 $.ajaxSetup({
     complete:function(xhr,ts) {
 

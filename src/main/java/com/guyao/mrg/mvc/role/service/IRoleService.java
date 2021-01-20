@@ -18,4 +18,6 @@ public interface IRoleService extends IService<Role> {
     String selectMenuIdsByRoleId(String id);
 
     void addUserRoleRela(String roleId, String userIds);
+
+    boolean deleteById(String id);
 }

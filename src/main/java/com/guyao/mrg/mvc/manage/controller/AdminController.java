@@ -1,9 +1,10 @@
 package com.guyao.mrg.mvc.manage.controller;
 
 import com.guyao.mrg.common.base.BaseController;
+import com.guyao.mrg.common.result.AjaxResult;
+import com.guyao.mrg.mvc.PropertyTest;
 import com.guyao.mrg.mvc.manage.service.AdminControllerService;
 import com.guyao.mrg.mvc.menu.service.IMenuService;
-import com.guyao.mrg.common.result.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +30,12 @@ public class AdminController extends BaseController {
     @Autowired
     private IMenuService menuService;
 
+    @Autowired
+    private PropertyTest propertyTest;
+
     @GetMapping("/login")
     public String login(Model model,String msg) {
+        System.out.println(propertyTest.getEst());
         model.addAttribute("msg",msg);
         return "login";
     }

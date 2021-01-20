@@ -31,10 +31,6 @@ public class Menu extends TreeEntity implements Serializable {
     @NotNull
     private Integer type;
 
-    /**
-     * 删除标记
-     */
-    private String isDelete = "0";
 
     /**
      * 图标

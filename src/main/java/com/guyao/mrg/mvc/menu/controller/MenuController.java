@@ -71,8 +71,8 @@ public class MenuController extends BaseController {
 
     @PostMapping("delete")
     @ResponseBody
-    public AjaxResult delete(@RequestParam("id") String id) {
-        return AjaxResult.ok(menuService.delete(id));
+    public AjaxResult delete(@RequestParam("ids") String ids) {
+        return AjaxResult.ok(menuService.delete(ids));
     }
 
 }

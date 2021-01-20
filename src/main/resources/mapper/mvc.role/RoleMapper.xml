@@ -4,7 +4,8 @@
 
     <resultMap id="roleMap" type="com.guyao.mrg.mvc.role.entity.Role">
         <id column="id" property="id"/>
-        <collection property="menuList" column="id" fetchType="eager" select="com.guyao.mrg.mvc.menu.mapper.MenuMapper.findByRoleId"/>
+        <collection property="menuList" column="id" fetchType="eager"
+                    select="com.guyao.mrg.mvc.menu.mapper.MenuMapper.findByRoleId"/>
     </resultMap>
 
     <select id="findByUserId" resultMap="roleMap">
@@ -29,11 +30,8 @@
 
     </select>
 
-    <update id="updateModifierAndModifyTime">
-        update role r set r.modifier = #{userId},r.modify_time = #{date,jdbcType=DATE} where r.id = #{id}
-    </update>
 
-    <insert id="saveRoleMenuRelation" >
+    <insert id="saveRoleMenuRelation">
         insert into role_menu(id,role_id,menu_id) values(
         #{id},
         #{roleId},

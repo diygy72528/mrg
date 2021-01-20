@@ -63,20 +63,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Override
     public List<Menu> selectMenuList(Menu menu) {
-        return baseMapper.selectList(new QueryWrapper<>(menu));
+        return baseMapper.selectList(new QueryWrapper<>(menu).orderByAsc("order_num"));
     }
 
     @Override
-    public int delete(String id) {
-        if(selectCountByParentId(id) > 0) {
-            throw new WarnException("存在子菜单，不允许删除！");
+    public boolean delete(String ids) {
+        for (String id : ids.split(",")) {
+            if(selectCountByParentId(id) > 0) {
+                throw new WarnException("存在子菜单，不允许删除！");
+            }
+            if(selectRoleCountById(id) > 0){
+                throw new WarnException("菜单已经分配，不允许删除！");
+            }
+            //Mybatis plus删除时没有更新操作人，操作时间功能，需要手动添加。
+            baseMapper.updateModifierAndModifyTime(id,SecurityUtils.getUserDetails().getUserId(),LocalDateTime.now(), "menu");
+            baseMapper.deleteById(id);
         }
-        if(selectRoleCountById(id) > 0){
-            throw new WarnException("菜单已经分配，不允许删除！");
-        }
-        //Mybatis plus删除时没有更新操作人，操作时间功能，需要手动添加。
-        baseMapper.updateModifierAndModifyTime(id,SecurityUtils.getUserDetails().getUserId(),LocalDateTime.now());
-        return baseMapper.deleteById(id);
+        return true;
     }
 
     @Override

@@ -28,6 +28,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.session.InvalidSessionStrategy;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 
 /**
  * @author guyao
@@ -122,9 +125,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             for (Role r : user.getRoleList()) {
                 menus.addAll(menuService.findByRoleId(r.getId()));
             }
+            //菜单去重并排序
+            HashSet<Menu> deDuplicatedMenus = new HashSet<>(menus);
+            ArrayList finalList = new ArrayList<>(deDuplicatedMenus);
+            Collections.sort(finalList, new Comparator<Menu>() {
+                @Override
+                public int compare(Menu m1, Menu m2) {
+                    return m1.getOrderNum() - m2.getOrderNum();
+                }
+            });
             log.info("=====用户{}：具有菜单{}=====",user.getUserName(),menus);
             log.info("=====用户{}：具有角色{}=====",user.getUserName(),user.getRoleList());
-            return LoginUserDetails.builder().username(user.getAccount()).password(user.getPassword()).menus(menus).userId(user.getId()).build();
+            return LoginUserDetails.builder().username(user.getAccount()).password(user.getPassword()).menus(finalList).userId(user.getId()).build();
         };
     }
 }

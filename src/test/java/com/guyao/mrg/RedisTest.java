@@ -15,6 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -88,13 +91,23 @@ public class RedisTest {
         hash.put("hash","a","value of a");
     }
 
+
+
     @Test
     public void test8() {
         HashOperations ops = redisTemplate.opsForHash();
-        Object o = ops.get("hash", "a");
-        System.out.println(o);
-        Map hash1 = ops.entries("hash");
-        System.out.println(hash1);
+        String[] arr = {"sex","status" , "ceshi" , "1"};
+        ArrayList<String> strings = new ArrayList<>(Arrays.asList(arr));
+
+        List dict_cache = ops.multiGet("dict_cache", strings);
+        System.out.println(dict_cache);
+    }
+
+    @Test
+    public void test9() throws InterruptedException {
+        Long dict_cache = redisTemplate.opsForHash().size("dict_cache");
+        Map dict_cache1 = redisTemplate.opsForHash().entries("dict_cache");
+        System.out.println(dict_cache1);
     }
 
 }

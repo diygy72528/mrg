@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guyao.mrg.mvc.dict.mapper.DictTypeMapper">
-
+<resultMap id="dictTypeData" type="dictType">
+    <id column="id" property="id"/>
+    <result column="dict_type_ch_name" property="dictTypeChName" />
+    <result column="dict_type_en_name" property="dictTypeEnName" />
+    <result column="dict_type_descript" property="dictTypeDescript" />
+    <result column="creater" property="creater" />
+    <result column="create_time" property="createTime" />
+    <result column="modifier" property="modifier" />
+    <result column="modify_time" property="modifyTime" />
+    <result column="STATUS" property="status" />
+    <result column="is_delete" property="isDelete" />
+    <collection property="dataList" ofType="dictData">
+        <id property="id" column="data_id"/>
+        <result property="dictName" column="dict_name"/>
+        <result property="dictTypeId" column="dict_type_id"/>
+        <result property="creater" column="data_creater"/>
+        <result property="createTime" column="data_create_time"/>
+        <result property="modifier" column="data_modifier"/>
+        <result property="modifyTime" column="data_modify_time"/>
+        <result property="isDelete" column="data_is_delete"/>
+        <result property="status" column="data_status"/>
+        <result property="value" column="data_value"/>
+    </collection>
+</resultMap>
 
     <sql id="baseColumns">
         id,
@@ -20,5 +43,72 @@
         <include refid="baseColumns"></include>
         from dict_type
         where is_delete = #{dictType.isDelete}
+    </select>
+    <select id="selectCountByEnName" resultType="int">
+        select count(1) from dict_type t
+         <where>
+             t.dict_type_en_name = #{enName} and t.is_delete = 0
+             <if test="id != null and id != ''">
+                 and t.id != #{id}
+             </if>
+         </where>
+
+    </select>
+
+    <sql id="cacheSql">
+        SELECT
+            t.id,
+            t.dict_type_ch_name,
+            t.dict_type_en_name,
+            t.dict_type_descript,
+            t.creater,
+            t.create_time,
+            t.modifier,
+            t.modify_time,
+            t.STATUS,
+            t.is_delete,
+            d.id AS data_id,
+            d.dict_name,
+            d.dict_type_id,
+            d.creater AS data_creater,
+            d.modifier AS data_modifier,
+            d.`status` AS data_status,
+            d.`value` AS data_value,
+            d.is_delete as data_is_delete
+        FROM
+            dict_type t
+            LEFT JOIN (
+            SELECT
+                m.id,
+                m.dict_name,
+                m.dict_type_id,
+                m.creater,
+                m.create_time,
+                m.modifier,
+                m.modify_time,
+                m.`status`,
+                m.`value`,
+                m.is_delete
+            FROM
+                dict_data m
+            WHERE
+                m.is_delete = 0
+            ) d ON t.id = d.dict_type_id
+        WHERE
+            t.is_delete = 0
+    </sql>
+    <select id="selectTypeDataCache" resultMap="dictTypeData">
+        <include refid="cacheSql"/>
+    </select>
+    <select id="getTypeByName" resultMap="dictTypeData">
+        <include refid="cacheSql"/>
+        and
+            t.dict_type_en_name = #{typeName}
+    </select>
+
+    <select id="getTypeById" resultMap="dictTypeData">
+        <include refid="cacheSql"/>
+        and
+        t.id = #{id}
     </select>
 </mapper>

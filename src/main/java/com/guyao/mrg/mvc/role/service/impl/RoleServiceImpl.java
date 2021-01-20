@@ -1,6 +1,7 @@
 package com.guyao.mrg.mvc.role.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.guyao.mrg.common.utils.SecurityUtils;
 import com.guyao.mrg.common.utils.UUIDUtils;
 import com.guyao.mrg.mvc.role.entity.Role;
 import com.guyao.mrg.mvc.role.mapper.RoleMapper;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     @Override
     public boolean saveOrUpdate(Role role, String menuIds) {
-         baseMapper.updateById(role);
+        //新增时此处默认生成字uuid
+         super.saveOrUpdate(role);
          //清除原始关联
         baseMapper.deleteRoleMenuRelationByRoleId(role.getId());
          for (String menuId : menuIds.split(",")) {
@@ -48,5 +51,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Override
     public void addUserRoleRela(String roleId, String userIds) {
         userService.addUsersRoleRela(roleId,userIds);
+    }
+
+    @Override
+    public boolean deleteById(String ids) {
+        for (String id : ids.split(",")) {
+            baseMapper.updateModifierAndModifyTime(id, SecurityUtils.getUserDetails().getUserId(), LocalDateTime.now(), "role");
+            baseMapper.deleteById(id);
+        }
+        return true;
     }
 }

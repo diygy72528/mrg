@@ -1,7 +1,7 @@
 //弹窗icon状态
 var modal_status = {
     ask: 'ask',
-    warining: 'warning',
+    warning: 'warning',
     success: 'success',
     failed: 'failed'
 }
@@ -137,6 +137,7 @@ var Response_Status = {
             },
             msg: function(msg,icon) {
                 layer.msg(msg,{
+                    time:2000,
                     icon:$.modal.icon(icon)
                 })
             }
@@ -175,7 +176,7 @@ var Response_Status = {
                 if($.WebFn.isNull(id)) {
                     id = $.table.getSelection();
                     if(id == null) {
-                        $.modal.alert('请勾选单个选项',modal_status.warining);
+                        $.modal.alert('请勾选单个选项',modal_status.warning);
                         return;
                     }
                 }
@@ -194,7 +195,7 @@ var Response_Status = {
             openTab:function(url,id,options){
                 var tab_id = id||"_tab" + Math.random().toString(36).substring(2);
                 if(!url){
-                    $.modal.warining(modal_status.warining,'url不存在');
+                    $.modal.warning(modal_status.warning,'url不存在');
                 }
                 addTab({id:tab_id,title:options.title,close:true,url:url,list_id:window.frameElement.getAttribute('id').substring(7,window.frameElement.getAttribute('id').length)});
             },
@@ -202,20 +203,20 @@ var Response_Status = {
                 id = id?id:$.table.getSelection();
                 if(id) {
                     $.modal.confirm("确定删除选中的1条数据吗？",function() {
-                        var data = {id:id};
+                        var data = {ids:id};
                         $.operate.post($.table.options.deleteUrl,data,function (result) {
                             //刷新当前页面
                             parent.refreshTable();
                         })
                     })
                 }else {
-                    $.modal.alert("请选择一条记录",modal_status.warining);
+                    $.modal.alert("请选择一条记录",modal_status.warning);
                 }
             },
             batRemove: function() {
-                var ids = $.table.getSelectedIds('id');
+                var ids = $.table.getSelectedIds();
                 if(ids.length == 0) {
-                    $.modal.alert("请至少选择一条记录",modal_status.warining);
+                    $.modal.alert("请至少选择一条记录",modal_status.warning);
                     return;
                 }
                 $.modal.confirm("确定删除选中的"+ids.length+"条数据吗？",function(index) {
@@ -233,18 +234,18 @@ var Response_Status = {
                 }else if((result.status == Response_Status.fail)||(result.status == Response_Status.exception)) {
                     $.modal.alert(result.msg,modal_status.failed);
                 }else if(result.status == Response_Status.warn) {
-                    $.modal.alert(result.msg,modal_status.warining)
+                    $.modal.alert(result.msg,modal_status.warning)
                 }
 
                 $.modal.closeLoading();
             },
             successCallback: function(result) {
                 if(result.status == Response_Status.success) {
-                    $.modal.msg(result.msg,modal_status.success);
-                    parent.$.table.refresh();
                     $.modal.close();
+                    parent.$.modal.msg(result.msg,modal_status.success);
+                    parent.$.table.refresh();
                 }else {
-                    $.modal.alert(result.msg,modal_status.warining);
+                    $.modal.alert(result.msg,modal_status.warning);
                 }
             }
 
@@ -302,7 +303,13 @@ var Response_Status = {
                 }
                 return false;
             },
-
+            getDict:function(key,value) {
+                var result = '';
+                $.noAsyncAjax(contextPath + "dictType/getValue",'get',{name:key,value:value},function(name) {
+                    result = name;
+                });
+                return result
+            }
         },
         //此处只能生成一棵树，不能在同一个页面用此方法生成两棵树。否则涉及到方法会冲突。
         tree:{
@@ -476,8 +483,73 @@ var Response_Status = {
                     $.tree._tree.expandNode(node[0],true,false);
                 })
             }
+        },
+        noAsyncAjax:function(url,type,data,callback) {
+            if($.WebFn.isNull(url)) {
+                $.modal.msg("url不能为空",modal_status.warning);
+                return;
+            }
+            $.ajax({
+                url : url,
+                type : type||'get',
+                data : data,
+                dataType : 'json',
+                async : false,
+                error : function() {
+                },
+                success : callback
+            });
         }
     });
+    //自定义远程校验字段，避免使用remote时两次点击提交才能正常提交表单
+    $.fn.bootstrapValidator.validators.remoteValid = {
+        validate: function(validator, $field, options) {
+            var result = {
+                valid: false,
+                message: options.message||'校验失败'
+            };
+            if($.WebFn.isNull($field.val())) {
+                return {valid: true};
+            }
+            if($.WebFn.isNull(options.url)) {
+                return result;
+            }
+            if($.WebFn.isNull(options.data)) {
+                return result;
+            }
+            options.data[$field.attr('data-bv-field')] = $field.val();
+
+
+            function callback() {
+                $.ajax({
+                    url: options.url,
+                    data:options.data,
+                    type:options.type||'get',
+                    async: false,
+                    success:function(r) {
+                        var data = JSON.parse(r);
+                        if(data.valid) {
+                            result.valid = true;
+                            return;
+                        }
+                        result.valid = false;
+
+                    }
+                });
+                return result;
+            }
+            //todo:延时校重待完成
+            if(options.delay) {
+                if($field.data('bv.remote.timer')) {
+                    clearTimeout($field.data('bv.remote.timer'));
+                }
+                $field.data('bv.remote.timer',setTimeout(callback,options.delay));
+                return result;
+            }else {
+                return callback();
+            }
+        }
+    }
 })(jQuery)
 function mrgValid(formId,fields,icheck) {
     var valid_obj = this;
@@ -498,9 +570,9 @@ function mrgValid(formId,fields,icheck) {
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
-            fields:fields
+            fields:fields,
         });
-        icheck&&$form.data('bootstrapValidator').find('input[type="checkbox"], input[type="radio"]').iCheck({
+        icheck&&$form.find('input[type="checkbox"], input[type="radio"]').iCheck({
             checkboxClass: 'icheckbox-blue',
             radioClass: 'iradio-blue'
         })
@@ -548,7 +620,7 @@ function mrgTable(options) {
     }
     //初始化工具栏
     tab_obj.initTableButtons = function() {
-        tab_obj._table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table load-success.bs.table',function() {
+        tab_obj._table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table load-success.bs.table post-body.bs.table',function() {
             //初始化工具栏按钮
             var selections = tab_obj._table.bootstrapTable('getSelections');
             //禁用单个选项按钮
@@ -786,7 +858,7 @@ function multiSelector(options) {
                     $.table.refresh();
                     layer.close(index);
                 }else {
-                    $.modal.alert(result.msg,modal_status.warining);
+                    $.modal.alert(result.msg,modal_status.warning);
                 }
             })
         }

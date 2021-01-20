@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guyao.mrg.common.base.MyBaseMapper">
+
+    <update id="updateModifierAndModifyTime">
+        update ${tableName} r set r.modifier = #{userId},r.modify_time = #{date,jdbcType=DATE} where r.id = #{id}
+    </update>
+
+</mapper>

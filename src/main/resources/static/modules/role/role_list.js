@@ -34,6 +34,9 @@ $(function() {
                 width:'10',
                 widthUnit:'%',
                 order:'asc',
+                formatter: function(v) {
+                    return $.WebFn.getDict('status',v);
+                }
             },{
                 title:'创建时间',
                 field:'createTime',
@@ -52,9 +55,9 @@ $(function() {
     var table = new mrgTable(options);
 
     function CURDButtons(value, row, index) {
-        return '<div type="group" onclick="$.operate.edit('+row.id+')" class="btn btn-primary btn-xs"><span class="fa fa-edit"/>编辑</div>\n' +
+        return '<div type="group" onclick="$.operate.edit(\''+row.id+'\')" class="btn btn-primary btn-xs"><span class="fa fa-edit"/>编辑</div>\n' +
             '            <div type="group" onclick="$.operate.openTab(\''+contextPath+'role/roleUserList?id='+row.id+'\',\'role_user_'+row.id+'\',{\'title\':\'分配用户\'})" class="btn btn-success btn-xs"><span class="fa fa-user"/>分配用户</div>\n' +
-            '            <div type="group" onclick="$.operate.remove('+row.id+')" class="btn btn-danger btn-xs"><span class="fa fa-trash-o"/>删除</div>';
+            '            <div type="group" onclick="$.operate.remove(\''+row.id+'\')" class="btn btn-danger btn-xs"><span class="fa fa-trash-o"/>删除</div>';
     }
 
 })

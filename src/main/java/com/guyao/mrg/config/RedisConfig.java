@@ -22,12 +22,12 @@ public class RedisConfig {
         return new JedisConnectionFactory(config);
     }
 
-    @Bean
+    @Bean(value = "stringRedisTemplate")
     public StringRedisTemplate stringRedisTemplate() {
         return new StringRedisTemplate(jedisConnectionFactory());
     }
 
-    @Bean
+    @Bean(value = "redisTemplate")
     public RedisTemplate redisTemplate() {
         RedisTemplate template = new RedisTemplate();
         template.setConnectionFactory(jedisConnectionFactory());

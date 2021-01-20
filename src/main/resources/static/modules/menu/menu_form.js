@@ -33,6 +33,7 @@ $(function(){
     $('#save').bind('click',function() {
         if(valid_obj.validator.validate().isValid()) {
             $.operate.post(contextPath + 'menu/saveOrUpdate',$('#menuForm').serialize(),function(result) {
+                parent.$.modal.msg(result.msg,modal_status.success);
                 //关闭当前页面并刷新表格
                 parent.saveCurrentTabPage(window);
             });

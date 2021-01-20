@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="fragments/style::header"></div>
+    <div th:include="fragments/style::bootstrap-switch"></div>
+</head>
+<body>
+<div class="animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="dictTypeForm" th:object="${dictType}" >
+        <input name="id"   type="hidden" th:field="*{id}"   />
+        <div class="form-group">
+            <label for="dictTypeChName" class="col-sm-3 control-label " title="中文名">中文名：</label>
+            <div class="col-sm-8">
+                <div class="input-group" style="width: 100%">
+                    <input class="form-control" placeholder="请输入中文名" type="text" id="dictTypeChName" th:field="*{dictTypeChName}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" title="英文名">
+                <font color="red">*</font>英文名：
+            </label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text"
+                       autocomplete="off" placeholder="请输入英文名"
+                        th:field="*{dictTypeEnName}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" title="字典状态">
+                字典状态：
+            </label>
+            <div class="col-sm-8">
+                <input type="checkbox" id="status" th:checked="*{status == 1?true:false}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" title="类型描述">
+                类型描述：
+            </label>
+            <div class="col-sm-8">
+                <textarea class="form-control" type="text"
+                       autocomplete="off" placeholder="请输入类型描述" th:field="*{dictTypeDescript}"/>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<div th:include="fragments/script::script"></div>
+<div th:include="fragments/script::bootstrap-switch"></div>
+<script th:src="@{/static/modules/dict/dict_type_form.js}"></script>
+</html>

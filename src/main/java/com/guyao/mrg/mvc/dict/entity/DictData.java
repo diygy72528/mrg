@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  *
@@ -25,22 +27,25 @@ public class DictData extends BaseEntity {
     /**
      * 字典名称
      */
+    @NotNull
     private String dictName;
 
     /**
      * 类型id
      */
+    @NotNull
     private String dictTypeId;
+
+    /**
+     * 值
+     */
+    @NotNull
+    private String value;
 
     /**
      * 字典值状态
      */
     private Long status;
-
-    /**
-     * 是否删除
-     */
-    private String isDelete;
 
 
 }

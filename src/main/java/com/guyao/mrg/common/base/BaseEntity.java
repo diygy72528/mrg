@@ -47,4 +47,8 @@ public class BaseEntity implements Serializable {
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime modifyTime;
 
+    /**
+     * 删除标记
+     */
+    private String isDelete = "0";
 }

@@ -1,9 +1,13 @@
 package com.guyao.mrg.mvc.dict.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.guyao.mrg.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -29,6 +33,7 @@ public class DictType extends BaseEntity {
     /**
      * 英文名
      */
+    @NotNull
     private String dictTypeEnName;
 
     /**
@@ -39,12 +44,10 @@ public class DictType extends BaseEntity {
     /**
      * 字典状态
      */
+    @NotNull
     private Long status;
 
-    /**
-     * 是否删除
-     */
-    private String isDelete;
-
+    @TableField(exist = false)
+    private List<DictData> dataList;
 
 }

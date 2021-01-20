@@ -30,6 +30,12 @@ public class AdminController extends BaseController {
     private IMenuService menuService;
 
 
+    @GetMapping("/login")
+    public String login(Model model,String msg) {
+        model.addAttribute("msg",msg);
+        return "login";
+    }
+
     @GetMapping("/kaptcha")
     public void createKaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         adminService.generateKaptcha(request,response);

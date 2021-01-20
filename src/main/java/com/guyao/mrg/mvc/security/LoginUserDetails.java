@@ -1,9 +1,9 @@
 package com.guyao.mrg.mvc.security;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.guyao.mrg.mvc.menu.entity.Menu;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +31,7 @@ public class LoginUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return menus.stream().filter(m->StringUtils.isNotEmpty(m.getPermission())).map(m->new SimpleGrantedAuthority(m.getPermission())).collect(Collectors.toList());
+        return menus.stream().filter(m-> StringUtils.isNotEmpty(m.getPermission())).map(m->new SimpleGrantedAuthority(m.getPermission())).collect(Collectors.toList());
     }
 
     @Override

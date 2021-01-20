@@ -2,7 +2,6 @@ package com.guyao.mrg.mvc.manage.controller;
 
 import com.guyao.mrg.common.base.BaseController;
 import com.guyao.mrg.common.result.AjaxResult;
-import com.guyao.mrg.mvc.PropertyTest;
 import com.guyao.mrg.mvc.manage.service.AdminControllerService;
 import com.guyao.mrg.mvc.menu.service.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +29,6 @@ public class AdminController extends BaseController {
     @Autowired
     private IMenuService menuService;
 
-    @Autowired
-    private PropertyTest propertyTest;
-
-    @GetMapping("/login")
-    public String login(Model model,String msg) {
-        System.out.println(propertyTest.getEst());
-        model.addAttribute("msg",msg);
-        return "login";
-    }
 
     @GetMapping("/kaptcha")
     public void createKaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {

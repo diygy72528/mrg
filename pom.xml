@@ -19,7 +19,7 @@
         <!--mybatis plus-->
         <mybatisplus.version>LATEST</mybatisplus.version>
         <!--commons.text-->
-        <commons.text.version>1.6</commons.text.version>
+        <commons.text.version>1.10.0</commons.text.version>
         <skipTests>true</skipTests>
     </properties>
 
